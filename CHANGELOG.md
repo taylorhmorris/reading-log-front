@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - This CHANGELOG file to document changes
 - The Next.js starter repository files
+- The Signup page and its CSS module
 
 ### Changed
 - Homepage layout
