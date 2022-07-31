@@ -1,4 +1,3 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
@@ -18,7 +17,7 @@ export default function Home({
         <title>Reading Log</title>
         <meta name="description" content="Track your past, current, and future readings!" />
         <meta name="og:title" content="Reading Log" />
-        <link rel="icon" href="/book-icon.ico" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <header className={styles.header}>
@@ -30,7 +29,6 @@ export default function Home({
       </aside>
 
       <main className={styles.main}>
-        <Login />
         <Signup />
       </main>
 
