@@ -2,6 +2,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
+import Login from './Login'
+import Signup from './Signup'
 
 export default function Home({
   data
@@ -28,7 +30,8 @@ export default function Home({
       </aside>
 
       <main className={styles.main}>
-        
+        <Login />
+        <Signup />
       </main>
 
       <footer className={styles.footer}>
