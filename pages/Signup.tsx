@@ -22,6 +22,13 @@ const Signup: NextPage = () => {
     return (
         <section>
             <form id={'signup-form'} className={styles.form}>
+                <label htmlFor='username'>Username </label>
+                <input
+                    type='text'
+                    name='username'
+                    className={styles.input}
+                    onChange={inputChangeHandler}
+                />
                 <label htmlFor='email'>Email </label>
                 <input
                     type='text'
