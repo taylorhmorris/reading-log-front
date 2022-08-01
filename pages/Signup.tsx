@@ -1,7 +1,8 @@
+import type { NextPage } from 'next'
 import { useState } from 'react'
 import styles from '../styles/Signup.module.css'
 
-export default function Signup() {
+const Signup: NextPage = () => {
 
     // state of form inputs
     const [ formState, setFormState ] = useState({ email: '', password: '' });
@@ -45,3 +46,5 @@ export default function Signup() {
         </section>
     )
 }
+
+export default Signup
