@@ -10,6 +10,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The Next.js starter repository files
 - The Signup page and its CSS module
 - The Signup page's form, formState, and inputChangeHandler
-
-### Changed
-- Homepage layout
+- API Post request on Signup form submit

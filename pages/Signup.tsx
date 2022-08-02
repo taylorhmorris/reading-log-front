@@ -53,8 +53,44 @@ const Signup: NextPage = () => {
             });
 
             router.reload();
+            // redirect to Home once set up
+            // router.replace('/home');
         }
-    }
+    };
+
+    const loginHandler = (event: React.FormEvent<EventTarget>): void => {
+        event.preventDefault();
+
+        const { email, password } = formState;
+
+        // test for fetch request to API handler in pages/api/hello.ts
+        try {
+            fetch('/api/hello', {
+              method: 'POST',
+              body: JSON.stringify({
+                  email: email,
+                  password: password
+              }),
+            })
+            .then(res => {
+              res.json().then(data => console.log(data))
+            });
+        }
+        catch(err) {
+            console.error(err);
+        }
+        finally {
+            setFormState({
+                username: '',
+                email: '',
+                password: ''
+            });
+
+            router.reload();
+            // redirect to Home once set up
+            // router.replace('/home');
+        }
+    };
 
     return (
         <section>
@@ -83,13 +119,20 @@ const Signup: NextPage = () => {
                     className={styles.input}
                     onChange={inputChangeHandler}
                 />
-                <br />
-                <button
-                    type='submit'
-                    className={styles.btn}
-                    onClick={formSubmitHandler}
-                >Create Account
-                </button>
+                <div className={styles.btnContainer}>
+                    <button
+                        type='button'
+                        className={styles.btn}
+                        onClick={formSubmitHandler}
+                    >Create Account
+                    </button>
+                    <button
+                        type='button'
+                        className={styles.btn}
+                        onClick={loginHandler}
+                    >Login
+                    </button>
+                </div>
             </form>
         </section>
     )
