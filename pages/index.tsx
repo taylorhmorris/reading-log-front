@@ -3,6 +3,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
 import Signup from './Signup'
+import Navbar from '../components/Navbar'
 
 const Home: NextPage = () => {
   return (
@@ -19,7 +20,7 @@ const Home: NextPage = () => {
       </header>
 
       <aside className={styles.aside}>
-        This is the aside
+        <Navbar />
       </aside>
 
       <main className={styles.main}>
