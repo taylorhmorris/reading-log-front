@@ -3,6 +3,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
 import Signup from './Signup'
+import Dashboard from '../components/Dashboard'
 import Navbar from '../components/Navbar'
 
 const Home: NextPage = () => {
@@ -24,6 +25,7 @@ const Home: NextPage = () => {
       </aside>
 
       <main className={styles.main}>
+        {/* <Dashboard /> */}
         <Signup />
       </main>
 
