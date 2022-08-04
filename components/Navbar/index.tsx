@@ -4,12 +4,12 @@ import styles from '../../styles/Navbar.module.css'
 export default function Navbar() {
     return (
         <div className={styles.navbar}>
-            <Link href='/current'>
+            <Link href='/current-readings'>
                 <a className={styles.navlink}>
                     Current Readings
                 </a>
             </Link>
-            <Link href='/past'>
+            <Link href='/past-readings'>
                 <a className={styles.navlink}>
                     Past Readings
                 </a>
