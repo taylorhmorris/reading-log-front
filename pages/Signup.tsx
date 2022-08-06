@@ -51,10 +51,7 @@ const Signup: NextPage = () => {
                 email: '',
                 password: ''
             });
-
-            router.reload();
-            // redirect to Home once set up
-            // router.replace('/home');
+            router.replace('/');
         }
     };
 
@@ -85,10 +82,7 @@ const Signup: NextPage = () => {
                 email: '',
                 password: ''
             });
-
-            router.reload();
-            // redirect to Home once set up
-            // router.replace('/home');
+            router.replace('/');
         }
     };
 
@@ -109,6 +103,7 @@ const Signup: NextPage = () => {
                 <input
                     type='email'
                     name='email'
+                    required
                     className={styles.input}
                     onChange={inputChangeHandler}
                 />
@@ -116,6 +111,7 @@ const Signup: NextPage = () => {
                 <input
                     type='password'
                     name='password'
+                    required
                     className={styles.input}
                     onChange={inputChangeHandler}
                 />
