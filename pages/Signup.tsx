@@ -62,7 +62,7 @@ const Signup: NextPage = () => {
 
         // test for fetch request to API handler in pages/api/hello.ts
         try {
-            fetch('/api/hello', {
+            fetch('/api/users', {
               method: 'POST',
               body: JSON.stringify({
                   email: email,
