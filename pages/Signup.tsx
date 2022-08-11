@@ -23,20 +23,15 @@ const Signup: NextPage = () => {
         });
     };
 
-    const formSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
-        event.preventDefault();
-
-        const { username, email, password } = formState;
-
+    const fetchHandler = (
+        url: string,
+        data: object
+    ) => {
         // test for fetch request to API handler in pages/api/hello.ts
         try {
-            fetch('/api/hello', {
+            fetch(url, {
               method: 'POST',
-              body: JSON.stringify({
-                  username: username,
-                  email: email,
-                  password: password
-              }),
+              body: JSON.stringify(data),
             })
             .then(res => {
               res.json().then(data => console.log(data))
@@ -55,34 +50,29 @@ const Signup: NextPage = () => {
         }
     };
 
-    const loginHandler = (event: React.FormEvent<EventTarget>): void => {
+    const formSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
         event.preventDefault();
 
-        const { email, password } = formState;
+        const { username, email, password } = formState;
 
-        // test for fetch request to API handler in pages/api/hello.ts
-        try {
-            fetch('/api/users', {
-              method: 'POST',
-              body: JSON.stringify({
-                  email: email,
-                  password: password
-              }),
-            })
-            .then(res => {
-              res.json().then(data => console.log(data))
-            });
+        if (event.target.name === 'signup') {
+            const data = {
+                username: username,
+                email: email,
+                password: password
+            };
+            const url = '/api/hello';
+
+            fetchHandler(url, data);
         }
-        catch(err) {
-            console.error(err);
-        }
-        finally {
-            setFormState({
-                username: '',
-                email: '',
-                password: ''
-            });
-            router.replace('/');
+        if (event.target.name === 'login') {
+            const data = {
+                email: email,
+                password: password
+            };
+            const url = '/api/hello';
+
+            fetchHandler(url, data);
         }
     };
 
@@ -117,15 +107,17 @@ const Signup: NextPage = () => {
                 />
                 <div className={styles.btnContainer}>
                     <button
+                        name='signup'
                         type='button'
                         className={styles.btn}
                         onClick={formSubmitHandler}
                     >Create Account
                     </button>
                     <button
+                        name='login'
                         type='button'
                         className={styles.btn}
-                        onClick={loginHandler}
+                        onClick={formSubmitHandler}
                     >Login
                     </button>
                 </div>
