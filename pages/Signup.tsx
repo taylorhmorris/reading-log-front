@@ -56,23 +56,33 @@ const Signup: NextPage = () => {
         const { username, email, password } = formState;
 
         if (event.target.name === 'signup') {
-            const data = {
-                username: username,
-                email: email,
-                password: password
-            };
-            const url = '/api/hello';
+            if (!username || !email || !password) {
+                alert('Please fill out all information before creating account!')
+            }
+            else {
+                const data = {
+                    username: username,
+                    email: email,
+                    password: password
+                };
+                const url = '/api/hello';
 
-            fetchHandler(url, data);
+                fetchHandler(url, data);
+            }
         }
         if (event.target.name === 'login') {
-            const data = {
-                email: email,
-                password: password
-            };
-            const url = '/api/hello';
+            if (!email || !password) {
+                alert('Please fill out all information before loggin in!')
+            }
+            else {
+                const data = {
+                    email: email,
+                    password: password
+                };
+                const url = '/api/hello';
 
-            fetchHandler(url, data);
+                fetchHandler(url, data);
+            }
         }
     };
 
