@@ -50,41 +50,40 @@ const Signup: NextPage = () => {
         }
     };
 
-    const formSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
+    const signupSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
         event.preventDefault();
 
         const { username, email, password } = formState;
 
-        if (event.target.name === 'signup') {
-            if (!username || !email || !password) {
-                alert('Please fill out all information before creating account!')
-            }
-            else {
-                const data = {
-                    username: username,
-                    email: email,
-                    password: password
-                };
-                const url = '/api/hello';
-
-                fetchHandler(url, data);
-            }
+        if (!username || !email || !password) {
+            alert('Please fill out all information before creating account!')
         }
-        if (event.target.name === 'login') {
-            if (!email || !password) {
-                alert('Please fill out all information before loggin in!')
-            }
-            else {
-                const data = {
-                    email: email,
-                    password: password
-                };
-                const url = '/api/hello';
 
-                fetchHandler(url, data);
-            }
-        }
+        const data = {
+            username: username,
+            email: email,
+            password: password
+        };
+        const url = '/api/hello';
+        fetchHandler(url, data);
     };
+
+    const loginSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
+        event.preventDefault();
+
+        const { email, password } = formState;
+
+        if (!email || !password) {
+            alert('Please fill out all information before loggin in!')
+        }
+
+        const data = {
+            email: email,
+            password: password
+        };
+        const url = '/api/hello';
+        fetchHandler(url, data);
+    }
 
     return (
         <section>
@@ -120,14 +119,14 @@ const Signup: NextPage = () => {
                         name='signup'
                         type='button'
                         className={styles.btn}
-                        onClick={formSubmitHandler}
+                        onClick={signupSubmitHandler}
                     >Create Account
                     </button>
                     <button
                         name='login'
                         type='button'
                         className={styles.btn}
-                        onClick={formSubmitHandler}
+                        onClick={loginSubmitHandler}
                     >Login
                     </button>
                 </div>
