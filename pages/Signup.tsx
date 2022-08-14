@@ -92,8 +92,8 @@ const Signup: NextPage = () => {
             <Head>
                 <title>{siteTitle}</title>
             </Head>
-            
-            <section>
+
+            <section className={styles.signup}>
                 <form id={'signup-form'} className={styles.form}>
                     <label htmlFor='username'>Username </label>
                     <input
