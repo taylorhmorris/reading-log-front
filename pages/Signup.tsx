@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
-import Layout, { siteTitle } from '../components/layout'
-import Head from 'next/head'
+import Layout from '../components/layout'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import styles from '../styles/Signup.module.css'
@@ -89,10 +88,6 @@ const Signup: NextPage = () => {
 
     return (
         <Layout>
-            <Head>
-                <title>{siteTitle}</title>
-            </Head>
-
             <section className={styles.signup}>
                 <form id={'signup-form'} className={styles.form}>
                     <label htmlFor='username'>Username </label>

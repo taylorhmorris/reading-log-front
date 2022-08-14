@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
-import Layout, { siteTitle } from '../components/layout'
-import Head from 'next/head'
+import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
 
 import Navbar from '../components/Navbar'
@@ -8,10 +7,6 @@ import Navbar from '../components/Navbar'
 const PastReadings: NextPage = () => {
     return (
         <Layout>
-            <Head>
-              <title>{siteTitle}</title>
-            </Head>
-        
             <aside className={styles.aside}>
               <Navbar />
             </aside>
