@@ -1,4 +1,6 @@
 import type { NextPage } from 'next'
+import Layout, { siteTitle } from '../components/layout'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import styles from '../styles/Signup.module.css'
@@ -86,49 +88,55 @@ const Signup: NextPage = () => {
     }
 
     return (
-        <section>
-            <form id={'signup-form'} className={styles.form}>
-                <label htmlFor='username'>Username </label>
-                <input
-                    type='text'
-                    name='username'
-                    className={styles.input}
-                    onChange={inputChangeHandler}
-                />
-                <label htmlFor='email'>Email </label>
-                <input
-                    type='email'
-                    name='email'
-                    required
-                    className={styles.input}
-                    onChange={inputChangeHandler}
-                />
-                <label htmlFor='password'>Password </label>
-                <input
-                    type='password'
-                    name='password'
-                    required
-                    className={styles.input}
-                    onChange={inputChangeHandler}
-                />
-                <div className={styles.btnContainer}>
-                    <button
-                        name='signup'
-                        type='button'
-                        className={styles.btn}
-                        onClick={signupSubmitHandler}
-                    >Create Account
-                    </button>
-                    <button
-                        name='login'
-                        type='button'
-                        className={styles.btn}
-                        onClick={loginSubmitHandler}
-                    >Login
-                    </button>
-                </div>
-            </form>
-        </section>
+        <Layout>
+            <Head>
+                <title>{siteTitle}</title>
+            </Head>
+            
+            <section>
+                <form id={'signup-form'} className={styles.form}>
+                    <label htmlFor='username'>Username </label>
+                    <input
+                        type='text'
+                        name='username'
+                        className={styles.input}
+                        onChange={inputChangeHandler}
+                    />
+                    <label htmlFor='email'>Email </label>
+                    <input
+                        type='email'
+                        name='email'
+                        required
+                        className={styles.input}
+                        onChange={inputChangeHandler}
+                    />
+                    <label htmlFor='password'>Password </label>
+                    <input
+                        type='password'
+                        name='password'
+                        required
+                        className={styles.input}
+                        onChange={inputChangeHandler}
+                    />
+                    <div className={styles.btnContainer}>
+                        <button
+                            name='signup'
+                            type='button'
+                            className={styles.btn}
+                            onClick={signupSubmitHandler}
+                        >Create Account
+                        </button>
+                        <button
+                            name='login'
+                            type='button'
+                            className={styles.btn}
+                            onClick={loginSubmitHandler}
+                        >Login
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </Layout>
     )
 }
 
