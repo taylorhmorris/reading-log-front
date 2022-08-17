@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
-import { GetStaticProps } from 'next'
+import type { GetStaticProps } from 'next'
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
 
 import Navbar from '../components/Navbar'
 
-const Home: NextPage = (props) => {
+const Home: NextPage = () => {
 
-  const { apiData } = props;
+  const apiData = 'username';
 
   return (
     <Layout>
@@ -16,20 +16,19 @@ const Home: NextPage = (props) => {
       </aside>
 
       <section className={styles.home}>
-        Welcome, {apiData.user}
+        Welcome, {apiData}
       </section>
     </Layout>
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const user = 'username';
-  const apiData = { user: user };
-  return {
-    props: {
-      apiData
-    }
-  }
-}
+// export const getStaticProps: GetStaticProps = async () => {
+//   const apiData = 'username';
+//   return {
+//     props: {
+//       apiData
+//     }
+//   }
+// }
 
 export default Home
