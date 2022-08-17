@@ -7,7 +7,16 @@ import styles from '../styles/Home.module.css'
 import Navbar from '../components/Navbar'
 import BookInfo from '../components/BookInfo'
 
-const Books: NextPage = (props) => {
+type Book = {
+    author: string,
+    title: string,
+    length: number,
+    language: string,
+    publicationDate: number,
+    edition: string
+};
+
+const Books: NextPage = () => {
     const books = [{
         author: 'Douglas Adams',
         title: 'The Hitchhikers Guide to the Galaxy',
@@ -31,8 +40,7 @@ const Books: NextPage = (props) => {
         edition: '1st'
     }];
 
-    // const [ currentBook, setCurrentBook ] = useState({});
-    const currentBook = books[0];
+    const [ currentBook, setCurrentBook ] = useState<Book>(books[0]);
 
     return (
         <Layout>
@@ -45,19 +53,19 @@ const Books: NextPage = (props) => {
                 {books.map(book => {
                     return (
                         <div key={book.title} className={styles.bookItem}>
-                            <p className={styles.bookTitle}>{book.title}</p>
+                            <button
+                                className={styles.bookTitle}
+                                onClick={() => {setCurrentBook(book)}}
+                            >
+                                {book.title}
+                            </button>
                         </div>
                     )
                 })}
                 </div>  
                 <div>
                     <BookInfo
-                        title={currentBook.title}
-                        author={currentBook.author}
-                        length={currentBook.length}
-                        language={currentBook.language}
-                        publicationDate={currentBook.publicationDate}
-                        edition={currentBook.edition}
+                        currentBook={currentBook}
                     />  
                 </div>        
             </section>

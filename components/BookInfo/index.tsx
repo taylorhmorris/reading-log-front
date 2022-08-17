@@ -1,4 +1,4 @@
-type Props = {
+type Book = {
     author: string,
     title: string,
     length: number,
@@ -7,7 +7,7 @@ type Props = {
     edition: string
 };
 
-export default function BookInfo(props: (Props)) {
+export default function BookInfo(props: {currentBook: Book}) {
     const {
         author,
         title,
@@ -15,7 +15,7 @@ export default function BookInfo(props: (Props)) {
         language,
         publicationDate,
         edition
-    } = props;
+    } = props.currentBook;
 
     return (
         <div>
