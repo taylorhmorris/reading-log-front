@@ -5,9 +5,14 @@ import styles from '../styles/Home.module.css'
 
 import Navbar from '../components/Navbar'
 
-const Home: NextPage = () => {
+interface Props {
+  userData: {
+    username: string,
+    id: string
+  }
+}
 
-  const apiData = 'username';
+const Home: NextPage<Props> = ({ userData }) => {
 
   return (
     <Layout>
@@ -16,19 +21,23 @@ const Home: NextPage = () => {
       </aside>
 
       <section className={styles.home}>
-        Welcome, {apiData}
+        Welcome, {userData.username}
       </section>
     </Layout>
   )
 }
 
-// export const getStaticProps: GetStaticProps = async () => {
-//   const apiData = 'username';
-//   return {
-//     props: {
-//       apiData
-//     }
-//   }
-// }
+export const getStaticProps: GetStaticProps = async () => {
+  const userData = {
+    username: 'strudel',
+    id: '1'
+  }
+
+  return {
+    props: {
+      userData
+    }
+  }
+}
 
 export default Home
