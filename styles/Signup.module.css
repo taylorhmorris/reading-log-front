@@ -1,8 +1,17 @@
+.signup {
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    padding-top: 30vh;
+}
+
 .form {
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 350px;
+    width: 500px;
+    height: max-content;
     border: 1px solid gray;
     border-radius: 5px;
     box-shadow: 0 1px 4px rgba(128, 128, 128, 0.5);

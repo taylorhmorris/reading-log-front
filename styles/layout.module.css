@@ -1,0 +1,33 @@
+.container {
+    margin: 0;
+    padding: 0;
+}
+  
+.header {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 10vh;
+    text-align: center;
+    background-color: darkgreen;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    display: flex;
+    flex: 1;
+    padding: 2rem 0;
+    border-top: 1px solid #eaeaea;
+    justify-content: center;
+    align-items: center;
+    height: 5vh;
+}
+
+.footer a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
