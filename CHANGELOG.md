@@ -13,3 +13,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Post request on Signup form submit
 - API Post request for login button on Signup form
 - Global layout component
+- Books page
+- BookInfo component
