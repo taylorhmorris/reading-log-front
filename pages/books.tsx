@@ -19,23 +19,23 @@ const Books: NextPage = () => {
     const books = [{
         author: 'Douglas Adams',
         title: 'The Hitchhikers Guide to the Galaxy',
-        length: 42,
+        length: 208,
         language: 'English',
-        publicationDate: 1942,
+        publicationDate: 1979,
         edition: '1st'
     }, {
         author: 'J.R.R. Tolkien',
         title: 'The Hobbit',
-        length: 300,
+        length: 304,
         language: 'English',
-        publicationDate: 1901,
+        publicationDate: 1937,
         edition: '1st'
     }, {
         author: 'David Foster Wallace',
         title: 'Infinite Jest',
-        length: 1000000,
+        length: 1079,
         language: 'English',
-        publicationDate: 1990,
+        publicationDate: 1996,
         edition: '1st'
     }];
 
@@ -62,7 +62,7 @@ const Books: NextPage = () => {
                     )
                 })}
                 </div>  
-                <div>
+                <div className={styles.bookInfo}>
                     <BookInfo
                         currentBook={currentBook}
                     />  
