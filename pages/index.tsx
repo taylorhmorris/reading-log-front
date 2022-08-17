@@ -25,8 +25,8 @@ const Home: NextPage = () => {
       </aside>
 
       <main className={styles.main}>
-        {/* <Dashboard /> */}
-        <Signup />
+        <Dashboard />
+        {/* <Signup /> */}
       </main>
 
       <footer className={styles.footer}>

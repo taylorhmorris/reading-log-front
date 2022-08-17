@@ -23,81 +23,71 @@ const Signup: NextPage = () => {
         });
     };
 
-    const formSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
+    const fetchHandler = (
+        url: string,
+        data: object
+    ) => {
+        // test for fetch request to API handler in pages/api/hello.ts
+        try {
+            fetch(url, {
+              method: 'POST',
+              body: JSON.stringify(data),
+            })
+            .then(res => {
+              res.json().then(data => console.log(data))
+            });
+        }
+        catch(err) {
+            console.error(err);
+        }
+        finally {
+            setFormState({
+                username: '',
+                email: '',
+                password: ''
+            });
+            router.replace('/');
+        }
+    };
+
+    const signupSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
         event.preventDefault();
 
         const { username, email, password } = formState;
 
-        // test for fetch request to API handler in pages/api/hello.ts
-        try {
-            fetch('/api/hello', {
-              method: 'POST',
-              body: JSON.stringify({
-                  username: username,
-                  email: email,
-                  password: password
-              }),
-            })
-            .then(res => {
-              res.json().then(data => console.log(data))
-            });
+        if (!username || !email || !password) {
+            alert('Please fill out all information before creating account!')
         }
-        catch(err) {
-            console.error(err);
-        }
-        finally {
-            setFormState({
-                username: '',
-                email: '',
-                password: ''
-            });
 
-            router.reload();
-            // redirect to Home once set up
-            // router.replace('/home');
-        }
+        const data = {
+            username: username,
+            email: email,
+            password: password
+        };
+        const url = '/api/hello';
+        fetchHandler(url, data);
     };
 
-    const loginHandler = (event: React.FormEvent<EventTarget>): void => {
+    const loginSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
         event.preventDefault();
 
         const { email, password } = formState;
 
-        // test for fetch request to API handler in pages/api/hello.ts
-        try {
-            fetch('/api/hello', {
-              method: 'POST',
-              body: JSON.stringify({
-                  email: email,
-                  password: password
-              }),
-            })
-            .then(res => {
-              res.json().then(data => console.log(data))
-            });
+        if (!email || !password) {
+            alert('Please fill out all information before loggin in!')
         }
-        catch(err) {
-            console.error(err);
-        }
-        finally {
-            setFormState({
-                username: '',
-                email: '',
-                password: ''
-            });
 
-            router.reload();
-            // redirect to Home once set up
-            // router.replace('/home');
-        }
-    };
+        const data = {
+            email: email,
+            password: password
+        };
+        const url = '/api/hello';
+        fetchHandler(url, data);
+    }
 
     return (
         <section>
-            <form
-                id={'signup-form'} className={styles.form}
-                onSubmit={formSubmitHandler}
-            >
+            <form id={'signup-form'} className={styles.form}>
                 <label htmlFor='username'>Username </label>
                 <input
                     type='text'
@@ -109,6 +99,7 @@ const Signup: NextPage = () => {
                 <input
                     type='email'
                     name='email'
+                    required
                     className={styles.input}
                     onChange={inputChangeHandler}
                 />
@@ -116,20 +107,23 @@ const Signup: NextPage = () => {
                 <input
                     type='password'
                     name='password'
+                    required
                     className={styles.input}
                     onChange={inputChangeHandler}
                 />
                 <div className={styles.btnContainer}>
                     <button
+                        name='signup'
                         type='button'
                         className={styles.btn}
-                        onClick={formSubmitHandler}
+                        onClick={signupSubmitHandler}
                     >Create Account
                     </button>
                     <button
+                        name='login'
                         type='button'
                         className={styles.btn}
-                        onClick={loginHandler}
+                        onClick={loginSubmitHandler}
                     >Login
                     </button>
                 </div>
