@@ -14,30 +14,19 @@ type Author = {
     lastName: string
 }
 interface Props {
-    authors?: Author[],
+    authors: Author[],
     id: number
 }
 
 const Authors: NextPage<Props> = ({ authors, id }: InferNextPropsType<typeof getStaticProps>) => {
 
-    let firstAuthor = {
-        firstNames: ' ',
-        lastName: ' '
-    };
-    if (authors.length) {
-        firstAuthor = authors[0];
-    }
-
-    const [ currentAuthor, setCurrentAuthor ] = useState<Author>(firstAuthor);
+    const [ currentAuthor, setCurrentAuthor ] = useState<Author>({ firstNames: '', lastName: ' ' });
     const selectAuthors = [];
 
     for (let i = 0; i < authors.length; i++) {
         if (authors[i].ownerId == id) {
             selectAuthors.push(authors[i]);
         }
-    }
-    if (!selectAuthors.length) {
-        selectAuthors.push(firstAuthor);
     }
 
     return (
@@ -48,20 +37,25 @@ const Authors: NextPage<Props> = ({ authors, id }: InferNextPropsType<typeof get
         
             <section className={styles.books}>
                 <div className={styles.bookList}>
-                {selectAuthors.map(author => {
-                    return (
-                        <div key={author.id} className={styles.bookItem}>
-                            <button
-                                className={styles.bookTitle}
-                                onClick={() => {setCurrentAuthor(author)}}
-                            >
-                                {author.firstNames}{" "}{author.lastName}
-                            </button>
-                        </div>
+                {selectAuthors.length ? (
+                    selectAuthors.map(author => {
+                        return (
+                            <div key={author.id} className={styles.bookItem}>
+                                <button
+                                    className={styles.bookTitle}
+                                    onClick={() => {setCurrentAuthor(author)}}
+                                >
+                                    {author.firstNames}{" "}{author.lastName}
+                                </button>
+                            </div>
+                        )})
+                    ) : (
+                        <div>No authors added.</div>
                     )
-                })}
+                }
                 </div>  
                 <div className={styles.bookInfo}>
+                    <p>Author info:</p>
                     <AuthorInfo
                         currentAuthor={currentAuthor}
                     />  
