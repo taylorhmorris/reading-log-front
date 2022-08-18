@@ -11,11 +11,7 @@ import AuthorInfo from '../components/AuthorInfo'
 
 type Author = {
     firstNames: string,
-    lastName: string,
-    // id: number,
-    // books: {
-    //     title: string
-    // }[]
+    lastName: string
 }
 interface Props {
     authors?: Author[],
@@ -26,11 +22,7 @@ const Authors: NextPage<Props> = ({ authors, id }: InferNextPropsType<typeof get
 
     let firstAuthor = {
         firstNames: ' ',
-        lastName: ' ',
-        // id: 0,
-        // books: [{
-        //     title: ' '
-        // }]
+        lastName: ' '
     };
     if (authors.length) {
         firstAuthor = authors[0];
