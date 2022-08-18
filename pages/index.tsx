@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { GetStaticProps } from 'next'
-import { test_token, test_url } from '../utils/local'
+import { test_token, test_url_get_user } from '../utils/local'
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
 
@@ -29,7 +29,7 @@ const Home: NextPage<Props> = ({ username, id }) => {
 export const getStaticProps: GetStaticProps = async () => {
 
   const token = test_token();
-  const api = test_url();
+  const api = test_url_get_user();
   const url = `https://${api}`
 
   const response = await fetch(url, {
