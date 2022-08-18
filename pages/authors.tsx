@@ -1,35 +1,52 @@
 import type { NextPage } from 'next'
 import { useState } from 'react'
+import { GetStaticProps } from 'next'
+import { test_token, get_api_url } from '../utils/local'
+import InferNextPropsType from "infer-next-props-type"
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
 
 import Navbar from '../components/Navbar'
 import AuthorInfo from '../components/AuthorInfo'
 
-// type Author = {
-//     firstNames: string,
-//     lastName: string,
-//     id: number,
-//     books: {
-//         title: string
-//     }[]
-// };
-
 type Author = {
     firstNames: string,
     lastName: string,
-    id: number,
-    books: {
-        title: string
-    }[]
+    // id: number,
+    // books: {
+    //     title: string
+    // }[]
 }
 interface Props {
-    authors: Author[]
+    authors?: Author[],
+    id: number
 }
 
-const Authors: NextPage<Props> = ({ authors }) => {
+const Authors: NextPage<Props> = ({ authors, id }: InferNextPropsType<typeof getStaticProps>) => {
 
-    const [ currentAuthor, setCurrentAuthor ] = useState<Author>(authors[0])
+    let firstAuthor = {
+        firstNames: ' ',
+        lastName: ' ',
+        // id: 0,
+        // books: [{
+        //     title: ' '
+        // }]
+    };
+    if (authors.length) {
+        firstAuthor = authors[0];
+    }
+
+    const [ currentAuthor, setCurrentAuthor ] = useState<Author>(firstAuthor);
+    const selectAuthors = [];
+
+    for (let i = 0; i < authors.length; i++) {
+        if (authors[i].ownerId == id) {
+            selectAuthors.push(authors[i]);
+        }
+    }
+    if (!selectAuthors.length) {
+        selectAuthors.push(firstAuthor);
+    }
 
     return (
         <Layout>
@@ -37,9 +54,9 @@ const Authors: NextPage<Props> = ({ authors }) => {
               <Navbar />
             </aside>
         
-            <section className={styles.home}>
+            <section className={styles.books}>
                 <div className={styles.bookList}>
-                {authors.map(author => {
+                {selectAuthors.map(author => {
                     return (
                         <div key={author.id} className={styles.bookItem}>
                             <button
@@ -60,6 +77,34 @@ const Authors: NextPage<Props> = ({ authors }) => {
             </section>
         </Layout>
     )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+
+    const token = test_token();
+    const api = get_api_url();
+    const userUrl = `${api}/users/4`;
+    const authorsUrl = `${api}/authors`;
+  
+    const getUser = await fetch(userUrl, {
+      method: 'GET',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const userData = await getUser.json();
+    const { id } = userData;
+  
+    const getAuthors = await fetch(authorsUrl, {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const authors = await getAuthors.json();
+
+    return {
+      props: {
+        authors,
+        id
+      }
+    }
 }
 
 export default Authors

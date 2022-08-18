@@ -1,28 +1,30 @@
 type Author = {
     firstNames: string,
     lastName: string,
-    books: {
-        title: string
-    }[]
+    // id: number,
+    // books: {
+    //     title: string
+    // }[]
 };
 
 export default function AuthorInfo(props: {currentAuthor: Author}) {
     const {
         firstNames,
         lastName,
-        books
+        // id,
+        // books
     } = props.currentAuthor;
 
     return (
         <div>
             <h3>{firstNames}{" "}{lastName}</h3>
-            <ul>
+            {/* <ul>
                 {books.map(book => {
                     return (
-                        <li key={book.title}>{book.title}</li>
+                        <li key={`${book.title}${id}`}>{book.title}</li>
                     )
                 })}
-            </ul>
+            </ul> */}
         </div>
     )
 }

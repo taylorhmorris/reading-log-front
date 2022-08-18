@@ -56,6 +56,10 @@
   font-size: 1.2rem;
 }
 
+.bookTitle:hover {
+  cursor: pointer;
+}
+
 .bookInfo {
   width: 50%;
   text-align: left;
