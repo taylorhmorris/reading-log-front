@@ -1,18 +1,17 @@
 import type { NextPage } from 'next'
-import type { GetStaticProps } from 'next'
+import { GetStaticProps } from 'next'
+import { test_token, test_url } from '../utils/local'
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
 
 import Navbar from '../components/Navbar'
 
 interface Props {
-  userData: {
     username: string,
-    id: string
-  }
+    id: number
 }
 
-const Home: NextPage<Props> = ({ userData }) => {
+const Home: NextPage<Props> = ({ username, id }) => {
 
   return (
     <Layout>
@@ -21,21 +20,29 @@ const Home: NextPage<Props> = ({ userData }) => {
       </aside>
 
       <section className={styles.home}>
-        Welcome, {userData.username}
+        Welcome, {username}
       </section>
     </Layout>
   )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const userData = {
-    username: 'strudel',
-    id: '1'
-  }
+
+  const token = test_token();
+  const api = test_url();
+  const url = `https://${api}`
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+  const data = await response.json();
+  const { username, id } = data;
 
   return {
     props: {
-      userData
+      username,
+      id
     }
   }
 }
