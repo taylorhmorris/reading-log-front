@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import { useState } from 'react'
 import { GetStaticProps } from 'next'
-import { test_token, get_api_url } from '../utils/local'
 import InferNextPropsType from "infer-next-props-type"
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
@@ -11,7 +10,9 @@ import AuthorInfo from '../components/AuthorInfo'
 
 type Author = {
     firstNames: string,
-    lastName: string
+    lastName: string,
+    ownerId: number,
+    id: number
 }
 interface Props {
     authors: Author[],
@@ -20,7 +21,7 @@ interface Props {
 
 const Authors: NextPage<Props> = ({ authors, id }: InferNextPropsType<typeof getStaticProps>) => {
 
-    const [ currentAuthor, setCurrentAuthor ] = useState<Author>({ firstNames: '', lastName: ' ' });
+    const [ currentAuthor, setCurrentAuthor ] = useState<Author>({ firstNames: '', lastName: ' ', ownerId: 0, id: 0 });
     const selectAuthors = [];
 
     for (let i = 0; i < authors.length; i++) {
@@ -67,23 +68,19 @@ const Authors: NextPage<Props> = ({ authors, id }: InferNextPropsType<typeof get
 
 export const getStaticProps: GetStaticProps = async () => {
 
-    const token = test_token();
-    const api = get_api_url();
-    const userUrl = `${api}/users/4`;
-    const authorsUrl = `${api}/authors`;
-  
-    const getUser = await fetch(userUrl, {
-      method: 'GET',
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const userData = await getUser.json();
-    const { id } = userData;
-  
-    const getAuthors = await fetch(authorsUrl, {
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const authors = await getAuthors.json();
+    const authors = [{
+        firstNames: 'Douglas',
+        lastName: 'Adams',
+        ownerId: 4,
+        id: 1
+    },
+    {
+        firstNames: 'J.R.R',
+        lastName: 'Tolkien',
+        ownerId: 4,
+        id: 2
+    }]
+    const id = 4;
 
     return {
       props: {
