@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { GetStaticProps } from 'next'
+// import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useContext } from 'react'
@@ -13,7 +13,7 @@ interface Props {
     username: string
 }
 
-const Home: NextPage<Props> = ({ username }) => {
+const Home: NextPage<Props> = () => {
 
   const [ context, setContext ] = useContext(Context);
   const router = useRouter();
@@ -58,26 +58,15 @@ const Home: NextPage<Props> = ({ username }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+// export const getStaticProps: GetStaticProps = async () => {
 
-  // const token = test_token();
-  // const api = get_api_url();
-  // const url = `${api}/users/4`
+//   const username = 'Test User';
 
-  // const response = await fetch(url, {
-  //   method: 'GET',
-  //   headers: { 'Authorization': `Bearer ${token}` }
-  // })
-  // const data = await response.json();
-  // const { username, id } = data;
-
-  const username = 'Test User';
-
-  return {
-    props: {
-      username
-    }
-  }
-}
+//   return {
+//     props: {
+//       username
+//     }
+//   }
+// }
 
 export default Home
