@@ -1,6 +1,8 @@
 import type { NextPage } from 'next'
 import { GetStaticProps } from 'next'
-import { test_token, get_api_url } from '../utils/local'
+import { useRouter } from 'next/router'
+import { useEffect, useContext } from 'react'
+import { Context } from '../Context'
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
 
@@ -12,13 +14,26 @@ interface Props {
 
 const Home: NextPage<Props> = ({ username }) => {
 
+  const router = useRouter();
+  // const loggedIn = true;
+
+  // useEffect(() => {
+  //   if (!loggedIn) {
+  //     router.replace('/Signup');
+  //   }
+  // });
+  const [ context, setContext ] = useContext(Context);
+
   return (
     <Layout>
       <aside className={styles.aside}>
         <Navbar />
       </aside>
-
+  
       <section className={styles.home}>
+        <p>
+          Context: {context.userId}
+        </p>
         Welcome, {username}
       </section>
     </Layout>

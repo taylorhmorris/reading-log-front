@@ -1,10 +1,14 @@
 import type { NextPage } from 'next'
 import Layout from '../components/layout'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { Context } from '../Context'
 import styles from '../styles/Signup.module.css'
 
 const Signup: NextPage = () => {
+
+    // global context
+    const [ context, setContext ] = useContext(Context);
 
     // state of form inputs
     const [ formState, setFormState ] = useState({ username: '', email: '', password: '' });
@@ -25,17 +29,35 @@ const Signup: NextPage = () => {
     };
 
     const fetchHandler = (
-        url: string,
-        data: object
+        api: string,
+        data: {
+            username: string,
+            email: string,
+            password: string
+        }
     ) => {
-        // test for fetch request to API handler in pages/api/hello.ts
+        const url = process.env.NEXT_PUBLIC_API_URL + api;
+        let password = data.password.toString();
+
         try {
             fetch(url, {
               method: 'POST',
-              body: JSON.stringify(data),
+              body: JSON.stringify({
+                username: data.username,
+                email: data.email,
+                password: password
+              }),
+              headers: {'Content-Type': 'application/json'},
+              mode: 'cors'
             })
             .then(res => {
-              res.json().then(data => console.log(data))
+              res.json()
+              .then(data => {
+                setContext({ 
+                    userId: data.id,
+                    token: data.access_token
+                })
+              })
             });
         }
         catch(err) {
@@ -65,25 +87,26 @@ const Signup: NextPage = () => {
             email: email,
             password: password
         };
-        const url = '/api/hello';
-        fetchHandler(url, data);
+        const api = '/api/hello';
+        fetchHandler(api, data);
     };
 
     const loginSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
         event.preventDefault();
 
-        const { email, password } = formState;
+        const { username, email, password } = formState;
 
-        if (!email || !password) {
+        if (!username || !email || !password) {
             alert('Please fill out all information before loggin in!')
         }
 
         const data = {
+            username: username,
             email: email,
             password: password
         };
-        const url = '/api/hello';
-        fetchHandler(url, data);
+        const api = '/auth/login';
+        fetchHandler(api, data);
     }
 
     return (
