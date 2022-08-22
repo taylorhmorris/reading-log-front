@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
 import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import { useEffect, useContext } from 'react'
+import Link from 'next/link'
+import { useContext } from 'react'
 import { Context } from '../Context'
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
@@ -18,24 +19,41 @@ const Home: NextPage<Props> = ({ username }) => {
   const router = useRouter();
   const loggedIn = context.loggedIn;
 
-  useEffect(() => {
-    if (!loggedIn) {
-      router.replace('/signup');
-    }
-  }, [loggedIn, router])
-
   return (
     <Layout>
+      {loggedIn ? (
+      <>
       <aside className={styles.aside}>
         <Navbar />
       </aside>
       <section className={styles.home}>
-        Welcome, {username}
+        Welcome, {context.userId}
         <br />
-        <button onClick={() => setContext({ userId: 0, access_token: '', loggedIn: false })}>
+        <button onClick={() => {
+          setContext({ userId: 0, access_token: '', loggedIn: false })
+          router.replace('/login');
+        }}>
           Logout
         </button>
       </section>
+      </>
+      ) : (
+        <>
+          <section className={styles.home}>
+            You are not logged in. Please log in, or create an account.
+            <Link href='/login'>
+              <a className={styles.navlink}>
+                Login
+              </a>
+            </Link>
+            <Link href='/signup'>
+              <a className={styles.navlink}>
+                Create Account
+              </a>
+            </Link>
+          </section>
+        </>
+      )}
     </Layout>
   )
 }
