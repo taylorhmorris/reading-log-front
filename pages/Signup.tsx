@@ -30,36 +30,53 @@ const Signup: NextPage = () => {
     };
 
     const fetchHandler = (
-        api: string,
         data: {
             username: string,
             email: string,
             password: string
         }
     ) => {
-        const url = process.env.NEXT_PUBLIC_API_URL + api;
-        let password = data.password.toString();
+        const url = process.env.NEXT_PUBLIC_API_URL + '/users';
 
         try {
+            // POST new user info to '/users'
             fetch(url, {
               method: 'POST',
               body: JSON.stringify({
                 username: data.username,
                 email: data.email,
-                password: password
+                password: data.password
               }),
               headers: {'Content-Type': 'application/json'},
               mode: 'cors'
             })
             .then(res => {
-              res.json()
-              .then(data => {
-                setContext({ 
-                    userId: data.id,
-                    token: data.access_token,
-                    loggedIn: true
+              // if new user created successfully
+              if (res.ok) {
+                let url = process.env.NEXT_PUBLIC_API_URL + '/auth/login';
+
+                // Login new user
+                fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      username: data.username,
+                      email: data.email,
+                      password: data.password
+                    }),
+                    headers: {'Content-Type': 'application/json'},
+                    mode: 'cors'
                 })
-              })
+                .then(res => {
+                    res.json()
+                    .then(data => {
+                        setContext({ 
+                            userId: data.id,
+                            token: data.access_token,
+                            loggedIn: true
+                        })
+                    })
+                })
+              }
             });
         }
         catch(err) {
@@ -84,8 +101,8 @@ const Signup: NextPage = () => {
             email: email,
             password: password
         };
-        const api = '/api/hello';
-        fetchHandler(api, data);
+
+        fetchHandler(data);
     };
 
     return (
