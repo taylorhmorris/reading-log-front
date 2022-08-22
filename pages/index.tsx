@@ -14,27 +14,27 @@ interface Props {
 
 const Home: NextPage<Props> = ({ username }) => {
 
-  const router = useRouter();
-  // const loggedIn = true;
-
-  // useEffect(() => {
-  //   if (!loggedIn) {
-  //     router.replace('/Signup');
-  //   }
-  // });
   const [ context, setContext ] = useContext(Context);
+  const router = useRouter();
+  const loggedIn = context.loggedIn;
+
+  useEffect(() => {
+    if (!loggedIn) {
+      router.replace('/signup');
+    }
+  }, [loggedIn, router])
 
   return (
     <Layout>
       <aside className={styles.aside}>
         <Navbar />
       </aside>
-  
       <section className={styles.home}>
-        <p>
-          Context: {context.userId}
-        </p>
         Welcome, {username}
+        <br />
+        <button onClick={() => setContext({ userId: 0, access_token: '', loggedIn: false })}>
+          Logout
+        </button>
       </section>
     </Layout>
   )
