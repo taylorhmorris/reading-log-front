@@ -2,11 +2,11 @@ import decode from 'jwt-decode';
 
 class AuthService {
   getProfile() {
-    return decode(this.getToken());
+    const token = localStorage.getItem('id_token');
+    return decode(token);
   }
 
-  loggedIn() {
-    const token = this.getToken();
+  loggedIn(token) {
     return !!token && !this.isTokenExpired(token);
   }
 
@@ -22,7 +22,8 @@ class AuthService {
   }
 
   getToken() {
-    return localStorage.getItem('id_token');
+    const token = localStorage.getItem('id_token');
+    return token;
   }
 
   login(idToken) {

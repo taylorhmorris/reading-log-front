@@ -18,7 +18,12 @@ const Home: NextPage<Props> = () => {
 
   const [ context, setContext ] = useContext(Context);
   const router = useRouter();
-  const loggedIn = AuthService.loggedIn();
+  
+  const checkLoggedIn = () => {
+    let token = AuthService.getToken();
+    return AuthService.loggedIn(token);
+  }
+  const loggedIn = checkLoggedIn();
 
   return (
     <Layout>
