@@ -42,9 +42,9 @@ const Home: NextPage<Props> = () => {
             <br />
             <button onClick={() => {
               setContext({ 
-                userId: 0,
-                loggedIn: false
+                userId: 0
               });
+              setLoggedIn(false);
               AuthService.logout();
               router.replace('/login');
             }}>

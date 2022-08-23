@@ -56,8 +56,7 @@ const Signup: NextPage = () => {
               .then(data => {
                 AuthService.login(data.access_token);
                 setContext({ 
-                    userId: data.id,
-                    loggedIn: true
+                    userId: data.id
                 });
                 router.replace('/');
               })
