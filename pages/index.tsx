@@ -23,21 +23,22 @@ const Home: NextPage<Props> = () => {
   return (
     <Layout>
       {loggedIn ? (
-      <>
-      <aside className={styles.aside}>
-        <Navbar />
-      </aside>
-      <section className={styles.home}>
-        Welcome, {context.userId}
-        <br />
-        <button onClick={() => {
-          setContext({ userId: 0, access_token: '', loggedIn: false })
-          router.replace('/login');
-        }}>
-          Logout
-        </button>
-      </section>
-      </>
+        <>
+          <aside className={styles.aside}>
+            <Navbar />
+          </aside>
+          <section className={styles.home}>
+            Welcome, {context.userId}
+            <br />
+            <button onClick={() => {
+              setContext({ userId: 0 });
+              AuthService.logout();
+              router.replace('/login');
+            }}>
+              Logout
+            </button>
+          </section>
+        </>
       ) : (
         <>
           <section className={styles.home}>
