@@ -4,7 +4,8 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 
 type ContextType = {
-  userId?: number
+  userId?: number,
+  loggedIn?: boolean
 }
 
 function MyApp({ Component, pageProps }: AppProps) {

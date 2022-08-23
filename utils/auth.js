@@ -1,10 +1,10 @@
 import decode from 'jwt-decode';
 
 class AuthService {
-  getProfile() {
-    const token = localStorage.getItem('id_token');
-    return decode(token);
-  }
+  // getProfile() {
+  //   const token = localStorage.getItem('id_token');
+  //   return decode(token);
+  // }
 
   loggedIn(token) {
     return !!token && !this.isTokenExpired(token);
@@ -19,11 +19,6 @@ class AuthService {
     } catch (err) {
       return false;
     }
-  }
-
-  getToken() {
-    const token = localStorage.getItem('id_token');
-    return token;
   }
 
   login(idToken) {

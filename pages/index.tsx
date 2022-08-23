@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 // import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { Context } from '../Context'
 import AuthService from '../utils/auth'
 
@@ -17,13 +17,18 @@ interface Props {
 const Home: NextPage<Props> = () => {
 
   const [ context, setContext ] = useContext(Context);
+  const [ loggedIn, setLoggedIn ] = useState(false);
   const router = useRouter();
-  
-  const checkLoggedIn = () => {
-    let token = AuthService.getToken();
-    return AuthService.loggedIn(token);
-  }
-  const loggedIn = checkLoggedIn();
+
+  useEffect(() => {
+    // Code for <if statement to check window Object> is sourced from https://dev.to/dendekky/accessing-localstorage-in-nextjs-39he | original author is Ibrahim Adeniyi
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem('id_token');
+      const isLoggedIn = AuthService.loggedIn(token);
+
+      setLoggedIn(isLoggedIn);
+    }
+  },[])
 
   return (
     <Layout>
@@ -36,7 +41,10 @@ const Home: NextPage<Props> = () => {
             Welcome, {context.userId}
             <br />
             <button onClick={() => {
-              setContext({ userId: 0 });
+              setContext({ 
+                userId: 0,
+                loggedIn: false
+              });
               AuthService.logout();
               router.replace('/login');
             }}>
