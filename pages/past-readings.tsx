@@ -4,9 +4,9 @@ import { Context } from '../Context'
 import Link from 'next/link'
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
-import { format_date } from '../utils/helpers'
 
 import Navbar from '../components/Navbar'
+import LogInfo from '../components/LogInfo'
 
 type Book = {
     author: string,
