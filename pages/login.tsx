@@ -58,15 +58,13 @@ const Signup: NextPage = () => {
                 setContext({ 
                     userId: data.id,
                     loggedIn: true
-                })
+                });
+                router.replace('/');
               })
             });
         }
         catch(err) {
             console.error(err);
-        }
-        finally {
-            router.replace('/');
         }
     };
 
