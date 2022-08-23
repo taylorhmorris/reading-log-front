@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState, useContext } from 'react'
 import { Context } from '../Context'
 import styles from '../styles/Signup.module.css'
+import AuthService from '../utils/auth'
 
 const Signup: NextPage = () => {
 

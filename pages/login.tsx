@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState, useContext } from 'react'
 import { Context } from '../Context'
 import styles from '../styles/Signup.module.css'
+import AuthService from '../utils/auth'
 
 const Signup: NextPage = () => {
 
@@ -53,9 +54,9 @@ const Signup: NextPage = () => {
             .then(res => {
               res.json()
               .then(data => {
+                AuthService.login(data.access_token);
                 setContext({ 
                     userId: data.id,
-                    token: data.access_token,
                     loggedIn: true
                 })
               })
@@ -76,6 +77,7 @@ const Signup: NextPage = () => {
 
         if (!username || !email || !password) {
             alert('Please fill out all information before loggin in!')
+            return;
         }
 
         const data = {
