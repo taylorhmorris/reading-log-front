@@ -8,24 +8,51 @@ import { format_date } from '../utils/helpers'
 
 import Navbar from '../components/Navbar'
 
+const placeholderBook = {
+    ownerId: 4,
+    bookId: 1,
+    startDate: Date.now(),
+    book: {
+        author: 'Douglas Adams',
+        title: 'The Hitchhikers Guide to the Galaxy',
+        length: 208,
+        language: 'English',
+        publicationDate: 1979,
+        edition: '1st'
+    }
+}
+
 const CurrentReadings: NextPage = () => {
 
     const [ context, setContext ] = useContext(Context);
     const loggedIn = context.loggedIn;
 
-    const [ currentReading, setCurrentReading ] = useState({
-        ownerId: 4,
-        bookId: 1,
-        startDate: Date.now(),
-        book: {
-            author: 'Douglas Adams',
-            title: 'The Hitchhikers Guide to the Galaxy',
-            length: 208,
-            language: 'English',
-            publicationDate: 1979,
-            edition: '1st'
+    const [ currentReading, setCurrentReading ] = useState(placeholderBook);
+    const [ progress, setProgress ] = useState(100);
+    const [ pagesLogged, setPagesLogged ] = useState(0);
+
+    const inputChangeHandler = (event: React.FormEvent<EventTarget>): void => {
+        let target = event.target as HTMLInputElement;
+        const { value } = target;
+        const newPages = Math.floor(parseInt(value));
+
+        if (!value) {
+            setPagesLogged(0)
+        } else {
+            setPagesLogged(newPages)
         }
-    });
+    };
+
+    const logPageHandler = (event: React.FormEvent<EventTarget>): void => {
+        event.preventDefault();
+
+        if (!pagesLogged) {
+            return;
+        }
+
+        const newProgress = pagesLogged + progress;
+        setProgress(newProgress);
+    }
 
     return (
         <Layout>
@@ -36,18 +63,7 @@ const CurrentReadings: NextPage = () => {
                 </aside>
                 
                 <section className={styles.books}>
-                    <div className={styles.currentReadingInfo}>
-                        <p>Current Progress: <span id='progress'></span></p>
-                        <p>Pages Read Toady: <span id='pagesRead'></span></p>
-                        <p>Today&apos;s date: {format_date(Date.now())}</p>
-                        <label htmlFor='newRead'>How many pages did you read today?</label>
-                        <input 
-                            type='text'
-                            name='newRead'
-                        />
-                        <button>Log Pages</button>
-                    </div>  
-                    <div className={styles.bookInfo}>
+                    <div className={styles.curReadingBookInfo}>
                         <h3>{currentReading.book.title}</h3>
                         <h4>by {currentReading.book.author}</h4>
                         <ul>
@@ -56,6 +72,29 @@ const CurrentReadings: NextPage = () => {
                             <li>Published on: {currentReading.book.publicationDate}</li>
                             <li>Edition: {currentReading.book.edition}</li>
                         </ul>
+                    </div> 
+
+                    <div className={styles.curReadingLogInfo}>
+                        <p>Start Date: {format_date(currentReading.startDate)}</p>
+                        <p>Today&apos;s date: {format_date(Date.now())}</p>
+                        <br />
+                        <p><strong>Current Progress:</strong> {progress}</p>
+                        <br />
+                        <p><strong>Pages Read Toady:</strong> {pagesLogged}</p>
+                        <br />
+                        <label htmlFor='newRead'><strong>How many pages did you read today?</strong></label>
+                        <input 
+                            type='number'
+                            name='newRead'
+                            step='1'
+                            defaultValue={0}
+                            onChange={inputChangeHandler}
+                        />
+                        <button
+                            type='button'
+                            name='log'
+                            onClick={logPageHandler}
+                        >Log Pages</button>
                     </div> 
                 </section>
             </>

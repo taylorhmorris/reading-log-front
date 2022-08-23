@@ -35,12 +35,20 @@
   display: flex;
 }
 
-.bookList {
+.bookList, .curReadingLogInfo {
   width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+}
+
+.curReadingBookInfo {
+  padding-left: 10%;
+}
+
+.curReadingLogInfo p {
+  margin: 0;
 }
 
 .bookItem {
