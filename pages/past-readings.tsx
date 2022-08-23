@@ -39,14 +39,7 @@ const PastReadings: NextPage = () => {
     const [ context, setContext ] = useContext(Context);
     const loggedIn = context.loggedIn;
 
-    const [ currentBook, setCurrentBook ] = useState<Book>({
-        author: '',
-        title: '',
-        length: 0,
-        language: '',
-        publicationDate: 0,
-        edition: ''       
-    });
+    const [ currentBook, setCurrentBook ] = useState<Book>(placeholderBooks[0]);
 
     return (
         <Layout>
@@ -64,8 +57,7 @@ const PastReadings: NextPage = () => {
                                 <button
                                     className={styles.bookTitle}
                                     onClick={() => {setCurrentBook(book)}}
-                                >
-                                    {book.title}
+                                >{book.title}
                                 </button>
                             </div>
                         )
