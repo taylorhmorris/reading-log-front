@@ -4,9 +4,10 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useContext } from 'react'
 import { Context } from '../Context'
+import AuthService from '../utils/auth'
+
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
-
 import Navbar from '../components/Navbar'
 
 interface Props {
@@ -17,7 +18,7 @@ const Home: NextPage<Props> = () => {
 
   const [ context, setContext ] = useContext(Context);
   const router = useRouter();
-  const loggedIn = context.loggedIn;
+  const loggedIn = AuthService.loggedIn();
 
   return (
     <Layout>
@@ -46,7 +47,7 @@ const Home: NextPage<Props> = () => {
                 Login
               </a>
             </Link>
-            <Link href='/signup'>
+            <Link href='/Signup'>
               <a className={styles.navlink}>
                 Create Account
               </a>
