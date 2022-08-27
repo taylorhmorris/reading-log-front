@@ -11,10 +11,6 @@ import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
 import Navbar from '../components/Navbar'
 
-interface Props {
-    username: string
-}
-
 type UserData = {
   username?: string,
   sub?: number,
@@ -22,7 +18,7 @@ type UserData = {
   iat?: number
 }
 
-const Home: NextPage<Props> = () => {
+const Home: NextPage = () => {
 
   const [ context, setContext ] = useContext(Context);
   const [ loggedIn, setLoggedIn ] = useState(false);
@@ -57,7 +53,8 @@ const Home: NextPage<Props> = () => {
             <br />
             <button onClick={() => {
               setContext({ 
-                userId: 0
+                userId: 0,
+                loggedIn: false
               });
               setLoggedIn(false);
               AuthService.logout();
@@ -87,16 +84,5 @@ const Home: NextPage<Props> = () => {
     </Layout>
   )
 }
-
-// export const getStaticProps: GetStaticProps = async () => {
-
-//   const username = 'Test User';
-
-//   return {
-//     props: {
-//       username
-//     }
-//   }
-// }
 
 export default Home
