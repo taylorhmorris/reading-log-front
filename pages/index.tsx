@@ -18,6 +18,8 @@ const Home: NextPage<Props> = () => {
 
   const [ context, setContext ] = useContext(Context);
   const [ loggedIn, setLoggedIn ] = useState(false);
+  const [ userData, setUserData ] = useState({});
+
   const router = useRouter();
 
   useEffect(() => {
@@ -25,8 +27,10 @@ const Home: NextPage<Props> = () => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem('id_token');
       const isLoggedIn = AuthService.loggedIn(token);
+      const decodedData = AuthService.getProfile(token);
 
       setLoggedIn(isLoggedIn);
+      console.log(decodedData);
     }
   },[])
 
