@@ -1,9 +1,6 @@
 import decode from 'jwt-decode';
 
 class AuthService {
-  getProfile(token) {
-    return decode(token);
-  }
 
   loggedIn(token) {
     return !!token && !this.isTokenExpired(token);

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useContext, useState, useEffect } from 'react'
 import { Context } from '../Context'
 import AuthService from '../utils/auth'
+import Decode from 'jwt-decode'
 
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
@@ -14,25 +15,35 @@ interface Props {
     username: string
 }
 
+type UserData = {
+  username?: string,
+  sub?: number,
+  exp?: number,
+  iat?: number
+}
+
 const Home: NextPage<Props> = () => {
 
   const [ context, setContext ] = useContext(Context);
   const [ loggedIn, setLoggedIn ] = useState(false);
-  const [ userData, setUserData ] = useState({});
+  const [ userData, setUserData ] = useState<UserData>({});
 
   const router = useRouter();
 
   useEffect(() => {
     // Code for <if statement to check window Object> is sourced from https://dev.to/dendekky/accessing-localstorage-in-nextjs-39he | original author is Ibrahim Adeniyi
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem('id_token');
-      const isLoggedIn = AuthService.loggedIn(token);
-      const decodedData = AuthService.getProfile(token);
+      const token = localStorage?.getItem('id_token');
 
-      setLoggedIn(isLoggedIn);
-      console.log(decodedData);
+      if (token) {
+        const isLoggedIn = AuthService.loggedIn(token);
+        setLoggedIn(isLoggedIn);
+        
+        const decodedData = Decode<UserData>(token);
+        setUserData(decodedData);
+      }
     }
-  },[])
+  },[]);
 
   return (
     <Layout>
@@ -42,7 +53,7 @@ const Home: NextPage<Props> = () => {
             <Navbar />
           </aside>
           <section className={styles.home}>
-            Welcome, {context.userId}
+            Welcome, {userData.username}
             <br />
             <button onClick={() => {
               setContext({ 
