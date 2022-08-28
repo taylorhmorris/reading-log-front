@@ -6,6 +6,7 @@ import { useState, useContext } from 'react'
 import { Context } from '../Context'
 import styles from '../styles/Signup.module.css'
 import AuthService from '../utils/auth'
+import Axios from 'axios'
 
 const Signup: NextPage = () => {
 
@@ -38,55 +39,87 @@ const Signup: NextPage = () => {
         }
     ) => {
         const url = process.env.NEXT_PUBLIC_API_URL + '/users';
+        let password = data.password.toString();
 
-        try {
-            // POST new user info to '/users'
-            fetch(url, {
-              method: 'POST',
-              body: JSON.stringify({
-                username: data.username,
-                email: data.email,
-                password: data.password
-              }),
-              headers: {'Content-Type': 'application/json'},
-              mode: 'cors'
-            })
-            .then(res => {
-              // if new user created successfully
-                if (res.ok) {
-                  let url = process.env.NEXT_PUBLIC_API_URL + '/auth/login';    
-                  // Login new user
-                  fetch(url, {
-                      method: 'POST',
-                      body: JSON.stringify({
-                        username: data.username,
-                        email: data.email,
-                        password: data.password
-                      }),
-                      headers: {'Content-Type': 'application/json'},
-                      mode: 'cors'
-                  })
-                  .then(res => {
-                      res.json()
-                      .then(data => {
-                          AuthService.login(data.access_token);
-                          setContext({ 
-                              userId: data.id,
-                              loggedIn: true
-                          });
-                          router.replace('/');
-                      })
-                  })
-                } 
-                else {
-                    console.error(res);
-                    alert('Failed to process request.')
-                }
-            });
-        }
-        catch(err) {
+        Axios.post(url, {
+            username: data.username,
+            email: data.email,
+            password: password
+        })
+        .then(res => {
+            if (res.status == 201 || res.status == 200) {
+                let loginUrl = process.env.NEXT_PUBLIC_API_URL + '/auth/login'; 
+
+                Axios.post(loginUrl, {
+                    username: data.username,
+                    email: data.email,
+                    password: password      
+                })
+                .then(res => {
+                    AuthService.login(res.data.access_token);
+                    setContext({ 
+                        userId: res.data.id,
+                        loggedIn: true
+                    });
+                    router.replace('/');
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+            }
+        })
+        .catch(err => {
             console.error(err);
-        }
+        });
+
+        // try {
+        //     // POST new user info to '/users'
+        //     fetch(url, {
+        //       method: 'POST',
+        //       body: JSON.stringify({
+        //         username: data.username,
+        //         email: data.email,
+        //         password: data.password
+        //       }),
+        //       headers: {'Content-Type': 'application/json'},
+        //       mode: 'cors'
+        //     })
+        //     .then(res => {
+        //       // if new user created successfully
+        //         if (res.ok) {
+        //           let url = process.env.NEXT_PUBLIC_API_URL + '/auth/login';    
+        //           // Login new user
+        //           fetch(url, {
+        //               method: 'POST',
+        //               body: JSON.stringify({
+        //                 username: data.username,
+        //                 email: data.email,
+        //                 password: data.password
+        //               }),
+        //               headers: {'Content-Type': 'application/json'},
+        //               mode: 'cors'
+        //           })
+        //           .then(res => {
+        //               res.json()
+        //               .then(data => {
+        //                   AuthService.login(data.access_token);
+        //                   setContext({ 
+        //                       userId: data.id,
+        //                       loggedIn: true
+        //                   });
+        //                   router.replace('/');
+        //               })
+        //           })
+        //         } 
+        //         else {
+        //             console.error(res);
+        //             alert('Failed to process request.')
+        //         }
+        //     });
+        // }
+        // catch(err) {
+        //     console.error(err);
+        // }
     };
 
     const signupSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
