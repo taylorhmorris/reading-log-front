@@ -71,55 +71,6 @@ const Signup: NextPage = () => {
         .catch(err => {
             console.error(err);
         });
-
-        // try {
-        //     // POST new user info to '/users'
-        //     fetch(url, {
-        //       method: 'POST',
-        //       body: JSON.stringify({
-        //         username: data.username,
-        //         email: data.email,
-        //         password: data.password
-        //       }),
-        //       headers: {'Content-Type': 'application/json'},
-        //       mode: 'cors'
-        //     })
-        //     .then(res => {
-        //       // if new user created successfully
-        //         if (res.ok) {
-        //           let url = process.env.NEXT_PUBLIC_API_URL + '/auth/login';    
-        //           // Login new user
-        //           fetch(url, {
-        //               method: 'POST',
-        //               body: JSON.stringify({
-        //                 username: data.username,
-        //                 email: data.email,
-        //                 password: data.password
-        //               }),
-        //               headers: {'Content-Type': 'application/json'},
-        //               mode: 'cors'
-        //           })
-        //           .then(res => {
-        //               res.json()
-        //               .then(data => {
-        //                   AuthService.login(data.access_token);
-        //                   setContext({ 
-        //                       userId: data.id,
-        //                       loggedIn: true
-        //                   });
-        //                   router.replace('/');
-        //               })
-        //           })
-        //         } 
-        //         else {
-        //             console.error(res);
-        //             alert('Failed to process request.')
-        //         }
-        //     });
-        // }
-        // catch(err) {
-        //     console.error(err);
-        // }
     };
 
     const signupSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
