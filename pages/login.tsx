@@ -36,47 +36,29 @@ const Signup: NextPage = () => {
             password: string
         }
     ) => {
-        const url = process.env.NEXT_PUBLIC_API_URL + '/users';
+        const url = process.env.NEXT_PUBLIC_API_URL + '/auth/login';
+        let password = data.password.toString();
 
         try {
-            // POST new user info to '/users'
             fetch(url, {
               method: 'POST',
               body: JSON.stringify({
                 username: data.username,
                 email: data.email,
-                password: data.password
+                password: password
               }),
               headers: {'Content-Type': 'application/json'},
               mode: 'cors'
             })
             .then(res => {
-              // if new user created successfully
-              if (res.ok) {
-                let url = process.env.NEXT_PUBLIC_API_URL + '/auth/login';
-
-                // Login new user
-                fetch(url, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                      username: data.username,
-                      email: data.email,
-                      password: data.password
-                    }),
-                    headers: {'Content-Type': 'application/json'},
-                    mode: 'cors'
+              res.json()
+              .then(data => {
+                setContext({ 
+                    userId: data.id,
+                    token: data.access_token,
+                    loggedIn: true
                 })
-                .then(res => {
-                    res.json()
-                    .then(data => {
-                        setContext({ 
-                            userId: data.id,
-                            token: data.access_token,
-                            loggedIn: true
-                        })
-                    })
-                })
-              }
+              })
             });
         }
         catch(err) {
@@ -87,13 +69,13 @@ const Signup: NextPage = () => {
         }
     };
 
-    const signupSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
+    const loginSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
         event.preventDefault();
 
         const { username, email, password } = formState;
 
         if (!username || !email || !password) {
-            alert('Please fill out all information before creating account!')
+            alert('Please fill out all information before loggin in!')
         }
 
         const data = {
@@ -101,9 +83,8 @@ const Signup: NextPage = () => {
             email: email,
             password: password
         };
-
         fetchHandler(data);
-    };
+    }
 
     return (
         <Layout>
@@ -134,16 +115,16 @@ const Signup: NextPage = () => {
                     />
                     <div className={styles.btnContainer}>
                         <button
-                            name='signup'
+                            name='login'
                             type='button'
                             className={styles.btn}
-                            onClick={signupSubmitHandler}
-                        >Create Account
+                            onClick={loginSubmitHandler}
+                        >Login
                         </button>
                     </div>
-                    <Link href='/login'>
+                    <Link href='/signup'>
                         <a className={styles.navlink}>
-                            Login
+                            Sign Up
                         </a>
                     </Link>
                 </form>
