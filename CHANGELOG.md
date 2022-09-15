@@ -22,3 +22,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Format_date helper function
 - PastReadings page
 - LogInfo component
+- Axios

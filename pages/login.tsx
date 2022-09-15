@@ -6,6 +6,7 @@ import { useState, useContext } from 'react'
 import { Context } from '../Context'
 import styles from '../styles/Signup.module.css'
 import AuthService from '../utils/auth'
+import Axios from 'axios'
 
 const Signup: NextPage = () => {
 
@@ -40,32 +41,23 @@ const Signup: NextPage = () => {
         const url = process.env.NEXT_PUBLIC_API_URL + '/auth/login';
         let password = data.password.toString();
 
-        try {
-            fetch(url, {
-              method: 'POST',
-              body: JSON.stringify({
-                username: data.username,
-                email: data.email,
-                password: password
-              }),
-              headers: {'Content-Type': 'application/json'},
-              mode: 'cors'
-            })
-            .then(res => {
-              res.json()
-              .then(data => {
-                AuthService.login(data.access_token);
-                setContext({ 
-                    userId: data.id,
-                    loggedIn: true
-                });
-                router.replace('/');
-              })
+        Axios.post(url, {
+            username: data.username,
+            email: data.email,
+            password: password
+        })
+        .then(res => {
+            console.log(res);
+            AuthService.login(res.data.access_token);
+            setContext({ 
+                userId: res.data.id,
+                loggedIn: true
             });
-        }
-        catch(err) {
+            router.replace('/');
+        })
+        .catch(err => {
             console.error(err);
-        }
+        })
     };
 
     const loginSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
