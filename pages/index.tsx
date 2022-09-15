@@ -2,41 +2,68 @@ import type { NextPage } from 'next'
 // import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { Context } from '../Context'
+import AuthService from '../utils/auth'
+import Decode from 'jwt-decode'
+
 import Layout from '../components/layout'
 import styles from '../styles/Home.module.css'
-
 import Navbar from '../components/Navbar'
 
-interface Props {
-    username: string
+type UserData = {
+  username?: string,
+  sub?: number,
+  exp?: number,
+  iat?: number
 }
 
-const Home: NextPage<Props> = () => {
+const Home: NextPage = () => {
 
   const [ context, setContext ] = useContext(Context);
+  const [ loggedIn, setLoggedIn ] = useState(false);
+  const [ userData, setUserData ] = useState<UserData>({});
+
   const router = useRouter();
-  const loggedIn = context.loggedIn;
+
+  useEffect(() => {
+    // Code for <if statement to check window Object> is sourced from https://dev.to/dendekky/accessing-localstorage-in-nextjs-39he | original author is Ibrahim Adeniyi
+    if (typeof window !== "undefined") {
+      const token = localStorage?.getItem('id_token');
+
+      if (token) {
+        const isLoggedIn = AuthService.loggedIn(token);
+        setLoggedIn(isLoggedIn);
+        
+        const decodedData = Decode<UserData>(token);
+        setUserData(decodedData);
+      }
+    }
+  },[]);
 
   return (
     <Layout>
       {loggedIn ? (
-      <>
-      <aside className={styles.aside}>
-        <Navbar />
-      </aside>
-      <section className={styles.home}>
-        Welcome, {context.userId}
-        <br />
-        <button onClick={() => {
-          setContext({ userId: 0, access_token: '', loggedIn: false })
-          router.replace('/login');
-        }}>
-          Logout
-        </button>
-      </section>
-      </>
+        <>
+          <aside className={styles.aside}>
+            <Navbar />
+          </aside>
+          <section className={styles.home}>
+            Welcome, {userData.username}
+            <br />
+            <button onClick={() => {
+              setContext({ 
+                userId: 0,
+                loggedIn: false
+              });
+              setLoggedIn(false);
+              AuthService.logout();
+              router.replace('/login');
+            }}>
+              Logout
+            </button>
+          </section>
+        </>
       ) : (
         <>
           <section className={styles.home}>
@@ -46,7 +73,7 @@ const Home: NextPage<Props> = () => {
                 Login
               </a>
             </Link>
-            <Link href='/signup'>
+            <Link href='/Signup'>
               <a className={styles.navlink}>
                 Create Account
               </a>
@@ -57,16 +84,5 @@ const Home: NextPage<Props> = () => {
     </Layout>
   )
 }
-
-// export const getStaticProps: GetStaticProps = async () => {
-
-//   const username = 'Test User';
-
-//   return {
-//     props: {
-//       username
-//     }
-//   }
-// }
 
 export default Home

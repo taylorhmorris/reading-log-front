@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState, useContext } from 'react'
 import { Context } from '../Context'
 import styles from '../styles/Signup.module.css'
+import AuthService from '../utils/auth'
 
 const Signup: NextPage = () => {
 
@@ -52,38 +53,39 @@ const Signup: NextPage = () => {
             })
             .then(res => {
               // if new user created successfully
-              if (res.ok) {
-                let url = process.env.NEXT_PUBLIC_API_URL + '/auth/login';
-
-                // Login new user
-                fetch(url, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                      username: data.username,
-                      email: data.email,
-                      password: data.password
-                    }),
-                    headers: {'Content-Type': 'application/json'},
-                    mode: 'cors'
-                })
-                .then(res => {
-                    res.json()
-                    .then(data => {
-                        setContext({ 
-                            userId: data.id,
-                            token: data.access_token,
-                            loggedIn: true
-                        })
-                    })
-                })
-              }
+                if (res.ok) {
+                  let url = process.env.NEXT_PUBLIC_API_URL + '/auth/login';    
+                  // Login new user
+                  fetch(url, {
+                      method: 'POST',
+                      body: JSON.stringify({
+                        username: data.username,
+                        email: data.email,
+                        password: data.password
+                      }),
+                      headers: {'Content-Type': 'application/json'},
+                      mode: 'cors'
+                  })
+                  .then(res => {
+                      res.json()
+                      .then(data => {
+                          AuthService.login(data.access_token);
+                          setContext({ 
+                              userId: data.id,
+                              loggedIn: true
+                          });
+                          router.replace('/');
+                      })
+                  })
+                } 
+                else {
+                    console.error(res);
+                    alert('Failed to process request.')
+                }
             });
         }
         catch(err) {
             console.error(err);
-        }
-        finally {
-            router.replace('/');
         }
     };
 

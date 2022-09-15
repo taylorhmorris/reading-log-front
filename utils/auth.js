@@ -1,12 +1,8 @@
 import decode from 'jwt-decode';
 
 class AuthService {
-  getProfile() {
-    return decode(this.getToken());
-  }
 
-  loggedIn() {
-    const token = this.getToken();
+  loggedIn(token) {
     return !!token && !this.isTokenExpired(token);
   }
 
@@ -21,18 +17,12 @@ class AuthService {
     }
   }
 
-  getToken() {
-    return localStorage.getItem('id_token');
-  }
-
   login(idToken) {
-    localStorage.setItem('id_token', idToken);
-    window.location.assign('/');
+    localStorage.setItem('id_token', idToken)
   }
 
   logout() {
     localStorage.removeItem('id_token');
-    window.location.assign('/');
   }
 }
 
