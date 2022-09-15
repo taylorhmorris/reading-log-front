@@ -15,3 +15,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Global layout component
 - Books page
 - BookInfo component
+- Authors page
+- AuthorInfo component
