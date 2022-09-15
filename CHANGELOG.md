@@ -18,3 +18,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Authors page
 - AuthorInfo component
 - Login, Signin, logout functionality
+- CurrentReadings page
+- Format_date helper function
