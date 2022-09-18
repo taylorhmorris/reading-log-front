@@ -38,7 +38,7 @@ const Signup: NextPage = () => {
             password: string
         }
     ) => {
-        const url = process.env.NEXT_PUBLIC_API_URL + '/users';
+        const url = process.env.NEXT_PUBLIC_API_URL + '/auth/login';
         let password = data.password.toString();
 
         Axios.post(url, {
@@ -47,39 +47,27 @@ const Signup: NextPage = () => {
             password: password
         })
         .then(res => {
-            if (res.status == 201 || res.status == 200) {
-                let loginUrl = process.env.NEXT_PUBLIC_API_URL + '/auth/login'; 
-
-                Axios.post(loginUrl, {
-                    username: data.username,
-                    email: data.email,
-                    password: password      
-                })
-                .then(res => {
-                    AuthService.login(res.data.access_token);
-                    setContext({ 
-                        userId: res.data.id,
-                        loggedIn: true
-                    });
-                    router.replace('/');
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-            }
+            console.log(res);
+            AuthService.login(res.data.access_token);
+            setContext({ 
+                userId: res.data.id,
+                loggedIn: true
+            });
+            router.replace('/');
         })
         .catch(err => {
             console.error(err);
-        });
+        })
     };
 
-    const signupSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
+    const loginSubmitHandler = (event: React.FormEvent<EventTarget>): void => {
         event.preventDefault();
 
         const { username, email, password } = formState;
 
         if (!username || !email || !password) {
-            alert('Please fill out all information before creating account!')
+            alert('Please fill out all information before loggin in!')
+            return;
         }
 
         const data = {
@@ -87,9 +75,8 @@ const Signup: NextPage = () => {
             email: email,
             password: password
         };
-
         fetchHandler(data);
-    };
+    }
 
     return (
         <Layout>
@@ -120,16 +107,16 @@ const Signup: NextPage = () => {
                     />
                     <div className={styles.btnContainer}>
                         <button
-                            name='signup'
+                            name='login'
                             type='button'
                             className={styles.btn}
-                            onClick={signupSubmitHandler}
-                        >Create Account
+                            onClick={loginSubmitHandler}
+                        >Login
                         </button>
                     </div>
-                    <Link href='/login'>
+                    <Link href='/signup'>
                         <a className={styles.navlink}>
-                            Login
+                            Sign Up
                         </a>
                     </Link>
                 </form>
