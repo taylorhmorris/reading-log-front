@@ -3,9 +3,14 @@ export type UserFormProps = {
 };
 
 export function UserForm({ signup }: UserFormProps) {
+  const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    alert('Form submit');
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={formSubmit}>
         <fieldset>
           <legend>Form</legend>
           {signup ? (
