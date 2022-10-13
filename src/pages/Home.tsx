@@ -1,3 +1,7 @@
 export function Home() {
-  return <section>This is the home page</section>;
+  return (
+    <section>
+      <h2>This is the home page</h2>
+    </section>
+  );
 }

@@ -1,3 +1,10 @@
+import { UserForm } from '../components/UserForm';
+
 export function Signup() {
-  return <section>This is the singup page</section>;
+  return (
+    <section>
+      <h2>This is the singup page</h2>
+      <UserForm />
+    </section>
+  );
 }
