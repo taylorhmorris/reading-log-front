@@ -13,11 +13,7 @@ export function UserForm({ signup }: UserFormProps) {
       <form onSubmit={formSubmit}>
         <fieldset>
           <legend>Form</legend>
-          {signup ? (
-            <input name="email" type="email" placeholder="Email" />
-          ) : (
-            <></>
-          )}
+          {signup && <input name="email" type="email" placeholder="Email" />}
           <input name="username" type="text" placeholder="Username" />
           <input name="password" type="password" placeholder="Password" />
           <button type="submit">Submit</button>
