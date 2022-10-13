@@ -4,7 +4,7 @@ export function Login() {
   return (
     <section>
       <h2>This is the login page</h2>
-      <UserForm />
+      <UserForm signup={false} />
     </section>
   );
 }
