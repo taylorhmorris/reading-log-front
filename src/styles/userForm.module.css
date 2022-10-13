@@ -1,0 +1,29 @@
+.user-form {
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 350px;
+    width: 500px;
+    height: max-content;
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(128, 128, 128, 0.5);
+    padding: 10px 0;
+}
+
+.form input {
+    width: 80%;
+    margin-bottom: 5px;
+}
+
+.form-btn {
+    width: 30%;
+    padding: 3px 0;
+    margin: 12px 10px 5px 10px;
+}
