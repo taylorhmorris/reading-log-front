@@ -21,9 +21,25 @@ export function UserForm({ signup }: UserFormProps) {
   function formSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const formData: FormData = { username, password, email };
+    if (signup && !email) {
+      emailRef.current?.focus();
+      return;
+    }
+    if (!username) {
+      usernameRef.current?.focus();
+      return;
+    }
+    if (!password) {
+      passwordRef.current?.focus();
+      return;
+    }
 
-    console.log(formData);
+    const formData: FormData = { username, password, email };
+    alert(`
+      email: ${formData.email}
+      username: ${formData.username}
+      password: ${formData.password}
+    `);
   }
 
   return (
