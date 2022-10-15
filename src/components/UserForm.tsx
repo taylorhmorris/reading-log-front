@@ -43,44 +43,42 @@ export function UserForm({ signup }: UserFormProps) {
   }
 
   return (
-    <div className={styles['user-form']}>
-      <form onSubmit={formSubmit} className={styles.form}>
-        {signup && (
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            ref={emailRef}
-            onChange={(e: React.FormEvent<EventTarget>) => {
-              const target = e.target as HTMLInputElement;
-              setEmail(target.value);
-            }}
-          />
-        )}
+    <form onSubmit={formSubmit} className={styles.form}>
+      {signup && (
         <input
-          name="username"
-          type="text"
-          placeholder="Username"
-          ref={usernameRef}
+          name="email"
+          type="email"
+          placeholder="Email"
+          ref={emailRef}
           onChange={(e: React.FormEvent<EventTarget>) => {
             const target = e.target as HTMLInputElement;
-            setUsername(target.value);
+            setEmail(target.value);
           }}
         />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          ref={passwordRef}
-          onChange={(e: React.FormEvent<EventTarget>) => {
-            const target = e.target as HTMLInputElement;
-            setPassword(target.value);
-          }}
-        />
-        <button type="submit" className={styles['form-btn']}>
-          Submit
-        </button>
-      </form>
-    </div>
+      )}
+      <input
+        name="username"
+        type="text"
+        placeholder="Username"
+        ref={usernameRef}
+        onChange={(e: React.FormEvent<EventTarget>) => {
+          const target = e.target as HTMLInputElement;
+          setUsername(target.value);
+        }}
+      />
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        ref={passwordRef}
+        onChange={(e: React.FormEvent<EventTarget>) => {
+          const target = e.target as HTMLInputElement;
+          setPassword(target.value);
+        }}
+      />
+      <button type="submit" className={styles['form-btn']}>
+        Submit
+      </button>
+    </form>
   );
 }
