@@ -1,6 +1,8 @@
+import styles from '../styles/navbar.module.css';
+
 export function Navbar() {
   return (
-    <nav>
+    <nav className={styles.navbar}>
       <a href="/">Home</a>
       <a href="/login">Log In</a>
       <a href="/signup">Sign Up</a>
