@@ -1,9 +1,3 @@
-.user-form {
-    height: 85vh;
-    display: flex;
-    justify-content: center;
-}
-
 .form {
     display: flex;
     flex-direction: column;
