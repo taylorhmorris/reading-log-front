@@ -1,4 +1,5 @@
 import { UserForm } from '../components/UserForm';
+import '../styles/global.css';
 
 export function Login() {
   return (
