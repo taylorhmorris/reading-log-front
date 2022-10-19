@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import styles from '../styles/userForm.module.css';
 
 export type UserFormProps = {
@@ -15,8 +15,6 @@ export function UserForm({ signup }: UserFormProps) {
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
-  const [missing, setMissing] = useState({ em: false, un: false, pw: false });
-
   function formSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -26,17 +24,14 @@ export function UserForm({ signup }: UserFormProps) {
 
     if (signup && !email) {
       emailRef.current?.focus();
-      setMissing({ ...missing, em: true });
       return;
     }
     if (!username) {
       usernameRef.current?.focus();
-      setMissing({ ...missing, un: true });
       return;
     }
     if (!password) {
       passwordRef.current?.focus();
-      setMissing({ ...missing, pw: true });
       return;
     }
 
@@ -54,43 +49,28 @@ export function UserForm({ signup }: UserFormProps) {
   return (
     <form onSubmit={formSubmit} className={styles.form}>
       {signup && (
-        <div className={styles['form-input']}>
-          {missing.em && <span className={styles.error}>*</span>}
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            ref={emailRef}
-            onChange={() => {
-              setMissing({ ...missing, em: false });
-            }}
-          />
-        </div>
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          ref={emailRef}
+        />
       )}
-      <div className={styles['form-input']}>
-        {missing.un && <span className={styles.error}>*</span>}
-        <input
-          name="username"
-          type="text"
-          placeholder="Username"
-          ref={usernameRef}
-          onChange={() => {
-            setMissing({ ...missing, un: false });
-          }}
-        />
-      </div>
-      <div className={styles['form-input']}>
-        {missing.pw && <span className={styles.error}>*</span>}
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          ref={passwordRef}
-          onChange={() => {
-            setMissing({ ...missing, pw: false });
-          }}
-        />
-      </div>
+      <input
+        name="username"
+        type="text"
+        placeholder="Username"
+        required
+        ref={usernameRef}
+      />
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        required
+        ref={passwordRef}
+      />
       <button type="submit" className={styles['form-btn']}>
         Submit
       </button>
