@@ -11,9 +11,20 @@
     padding: 10px 0;
 }
 
-.form input {
+.form-input {
     width: 80%;
+    display: flex;
     margin-bottom: 5px;
+}
+
+.form-input input {
+    width: 100%;
+}
+
+.error {
+    color: red;
+    transform: translateY(4px);
+    padding-right: 3px;
 }
 
 .form-btn {
