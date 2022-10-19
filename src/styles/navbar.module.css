@@ -1,0 +1,22 @@
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.link {
+    margin: 2px 10px;
+    text-decoration: none;
+    font-size: 1.2em;
+    color: slateblue;
+}
+
+.link:visited:not(.current) {
+    color: slateblue;
+}
+
+.current {
+    color: slategray;
+    border-bottom: 1px solid slategrey;
+}
