@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import styles from '../styles/userForm.module.css';
 
 export type UserFormProps = {
@@ -11,15 +11,16 @@ type FormData = {
 };
 
 export function UserForm({ signup }: UserFormProps) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
   function formSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    const email: string | undefined = emailRef.current?.value;
+    const username: string | undefined = usernameRef.current?.value;
+    const password: string | undefined = passwordRef.current?.value;
 
     if (signup && !email) {
       emailRef.current?.focus();
@@ -40,41 +41,27 @@ export function UserForm({ signup }: UserFormProps) {
       username: ${formData.username}
       password: ${formData.password}
     `);
+    if (emailRef.current) emailRef.current.value = '';
+    if (usernameRef.current) usernameRef.current.value = '';
+    if (passwordRef.current) passwordRef.current.value = '';
   }
 
   return (
     <form onSubmit={formSubmit} className={styles.form}>
       {signup && (
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          ref={emailRef}
-          onChange={(e: React.FormEvent<EventTarget>) => {
-            const target = e.target as HTMLInputElement;
-            setEmail(target.value);
-          }}
-        />
+        <input name="email" type="email" placeholder="Email" ref={emailRef} />
       )}
       <input
         name="username"
         type="text"
         placeholder="Username"
         ref={usernameRef}
-        onChange={(e: React.FormEvent<EventTarget>) => {
-          const target = e.target as HTMLInputElement;
-          setUsername(target.value);
-        }}
       />
       <input
         name="password"
         type="password"
         placeholder="Password"
         ref={passwordRef}
-        onChange={(e: React.FormEvent<EventTarget>) => {
-          const target = e.target as HTMLInputElement;
-          setPassword(target.value);
-        }}
       />
       <button type="submit" className={styles['form-btn']}>
         Submit
