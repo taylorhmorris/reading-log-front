@@ -41,10 +41,14 @@ export function UserForm({ signup }: UserFormProps) {
     try {
       if (signup) {
         const response = await signupHandler(formData);
-        if (response) console.log(response);
+        response.ok
+          ? window.location.assign('/')
+          : alert(`${response.status}: ${response.statusText}`);
       } else {
         const response = await loginHandler(formData);
-        if (response) console.log(response);
+        response.ok
+          ? window.location.assign('/')
+          : alert(`${response.status}: ${response.statusText}`);
       }
     } catch (err) {
       console.error(err);
