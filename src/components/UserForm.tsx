@@ -11,6 +11,7 @@ type FormData = {
 };
 
 export function UserForm({ signup }: UserFormProps) {
+  console.log(import.meta.env.VITE_API_URL);
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
