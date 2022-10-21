@@ -2,9 +2,9 @@
 import { FormData } from '../components/UserForm';
 
 export default async function fetchHandler(formData: FormData, signup: boolean) {
-  const api_url = import.meta.env.VITE_API_URL;
+  const api_url: string | undefined | null = import.meta.env.VITE_API_URL;
   let url;
-  signup
+  signup && api_url
     ? url = api_url + '/users'
     : url = api_url + '/auth/login';
 
