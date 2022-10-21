@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { loginHandler, signupHandler } from '../utils/fetchHandlers';
+import fetchHandler from '../utils/fetchHandler';
 import styles from '../styles/userForm.module.css';
 
 export type UserFormProps = {
@@ -39,23 +39,13 @@ export function UserForm({ signup }: UserFormProps) {
     const formData: FormData = { username, password, email };
 
     try {
-      if (signup) {
-        const response = await signupHandler(formData);
-        response.ok
-          ? window.location.assign('/')
-          : alert(`${response.status}: ${response.statusText}`);
-      } else {
-        const response = await loginHandler(formData);
-        response.ok
-          ? window.location.assign('/')
-          : alert(`${response.status}: ${response.statusText}`);
-      }
+      const response = await fetchHandler(formData, signup);
+      response.ok
+        ? window.location.assign('/')
+        : alert(`${response.status}: ${response.statusText}`);
     } catch (err) {
       console.error(err);
     }
-    // if (emailRef.current) emailRef.current.value = '';
-    // if (usernameRef.current) usernameRef.current.value = '';
-    // if (passwordRef.current) passwordRef.current.value = '';
   }
 
   return (
