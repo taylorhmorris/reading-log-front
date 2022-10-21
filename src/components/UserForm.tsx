@@ -72,8 +72,19 @@ export function UserForm({ signup }: UserFormProps) {
         ref={passwordRef}
       />
       <button type="submit" className={styles['form-btn']}>
-        Submit
+        {signup ? <>Create Account</> : <>Log In</>}
       </button>
+      <div>
+        {signup ? (
+          <a href="/login" className={styles.link}>
+            Log In
+          </a>
+        ) : (
+          <a href="/signup" className={styles.link}>
+            Sign Up
+          </a>
+        )}
+      </div>
     </form>
   );
 }
