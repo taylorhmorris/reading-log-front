@@ -38,20 +38,16 @@ export function UserForm({ signup }: UserFormProps) {
 
     const formData: FormData = { username, password, email };
 
-    if (signup) {
-      try {
+    try {
+      if (signup) {
         const response = await signupHandler(formData);
         if (response) console.log(response);
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
-      try {
+      } else {
         const response = await loginHandler(formData);
         if (response) console.log(response);
-      } catch (err) {
-        console.error(err);
       }
+    } catch (err) {
+      console.error(err);
     }
     // if (emailRef.current) emailRef.current.value = '';
     // if (usernameRef.current) usernameRef.current.value = '';
