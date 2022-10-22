@@ -1,10 +1,11 @@
 import { useRef } from 'react';
+import fetchHandler from '../utils/fetchHandler';
 import styles from '../styles/userForm.module.css';
 
 export type UserFormProps = {
   signup: boolean;
 };
-type FormData = {
+export type FormData = {
   username: string;
   password: string;
   email?: string | undefined;
@@ -15,12 +16,12 @@ export function UserForm({ signup }: UserFormProps) {
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
-  function formSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function formSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const email: string | undefined = emailRef.current?.value;
-    const username: string | undefined = usernameRef.current?.value;
-    const password: string | undefined = passwordRef.current?.value;
+    const username = usernameRef.current?.value;
+    const password = passwordRef.current?.value;
 
     if (signup && !email) {
       emailRef.current?.focus();
@@ -36,14 +37,15 @@ export function UserForm({ signup }: UserFormProps) {
     }
 
     const formData: FormData = { username, password, email };
-    alert(`
-      email: ${formData.email}
-      username: ${formData.username}
-      password: ${formData.password}
-    `);
-    if (emailRef.current) emailRef.current.value = '';
-    if (usernameRef.current) usernameRef.current.value = '';
-    if (passwordRef.current) passwordRef.current.value = '';
+
+    try {
+      const response = await fetchHandler(formData, signup);
+      response.ok
+        ? window.location.assign('/')
+        : alert(`${response.status}: ${response.statusText}`);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
