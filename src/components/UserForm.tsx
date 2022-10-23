@@ -40,9 +40,10 @@ export function UserForm({ signup }: UserFormProps) {
 
     try {
       const response = await fetchHandler(formData, signup);
-      response.ok
-        ? window.location.assign('/')
-        : alert(`${response.status}: ${response.statusText}`);
+      if (response) console.log(response);
+      // response.ok
+      //   ? window.location.assign('/')
+      //   : alert(`${response.status}: ${response.statusText}`);
     } catch (err) {
       console.error(err);
     }
