@@ -44,7 +44,7 @@ export function UserForm({ signup }: UserFormProps) {
         ? (res = await FetchHandler.signup(formData))
         : (res = await FetchHandler.login(formData));
 
-      if (!res.ok || res.error) {
+      if (res.ok === false || res.error) {
         console.error(res);
         res.error
           ? alert(`Error code ${res.statusCode}: ${res.message}`)
