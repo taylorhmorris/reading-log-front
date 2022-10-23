@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import fetchHandler from '../utils/fetchHandler';
+import FetchHandler from '../utils/fetchHandler';
 import AuthService from '../utils/auth';
 import styles from '../styles/userForm.module.css';
 
@@ -39,17 +39,27 @@ export function UserForm({ signup }: UserFormProps) {
 
     const formData: FormData = { username, password, email };
 
-    try {
-      const response = await fetchHandler(formData, signup);
-      if (response) {
-        AuthService.login(response.access_token);
-        window.location.assign('/');
-      } else {
-        console.log(response);
-        alert('Something went wrong...');
+    if (signup) {
+      try {
+        const signup_res = await signupHandler(formData);
+        if (signup_res.ok) {
+          try {
+            const login_res = await loginHandler(formData);
+            if (login_res) {
+              AuthService.login(login_res.access_token);
+              window.location.assign('/');
+            }
+          } catch (err) {
+            console.error(err);
+            alert(`Something went wrong...`);
+          }
+        }
+        console.error(signup_res);
+        alert(`${signup_res.status}: ${signup_res.statusText}`);
+      } catch (err) {
+        console.error(err);
+        alert(`Something went wrong...`);
       }
-    } catch (err) {
-      console.error(err);
     }
   }
 
