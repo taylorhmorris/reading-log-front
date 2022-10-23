@@ -38,28 +38,26 @@ export function UserForm({ signup }: UserFormProps) {
     }
 
     const formData: FormData = { username, password, email };
+    try {
+      let res;
+      signup
+        ? (res = await FetchHandler.signup(formData))
+        : (res = await FetchHandler.login(formData));
 
-    if (signup) {
-      try {
-        const signup_res = await signupHandler(formData);
-        if (signup_res.ok) {
-          try {
-            const login_res = await loginHandler(formData);
-            if (login_res) {
-              AuthService.login(login_res.access_token);
-              window.location.assign('/');
-            }
-          } catch (err) {
-            console.error(err);
-            alert(`Something went wrong...`);
-          }
-        }
-        console.error(signup_res);
-        alert(`${signup_res.status}: ${signup_res.statusText}`);
-      } catch (err) {
-        console.error(err);
-        alert(`Something went wrong...`);
+      if (!res.ok || res.error) {
+        console.error(res);
+        res.error
+          ? alert(`Error code ${res.statusCode}: ${res.message}`)
+          : alert(`Error code ${res.status}: ${res.statusText}`);
+        return;
       }
+
+      AuthService.login(res.access_token);
+      window.location.assign('/');
+    } catch (err) {
+      console.error(err);
+      alert("Somethin' ain't right...");
+      return;
     }
   }
 
