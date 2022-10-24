@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.tsx\" --fix"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.tsx\" --fix && eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
     "jwt-decode": "^3.1.2",
