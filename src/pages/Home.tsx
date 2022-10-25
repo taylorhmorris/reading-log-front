@@ -1,13 +1,17 @@
 import { useUserContext } from '../context/UserContext';
 
 export function Home() {
-  const { loggedIn, updateLoggedIn } = useUserContext();
-
+  const { loggedIn } = useUserContext();
   return (
     <section>
       <h2>This is the home page</h2>
-      <h3>Logged in? {loggedIn ? 'Yes' : 'No'}</h3>
-      <button onClick={() => updateLoggedIn()}>log in/out</button>
+      {!loggedIn && (
+        <div>
+          <a href="/login">Log In</a>
+          <br />
+          <a href="/signup">Create Account</a>
+        </div>
+      )}
     </section>
   );
 }

@@ -17,7 +17,7 @@ function App() {
       <Router>
         <div>
           <header>
-            <h1>Header</h1>
+            <h1>Reading Log</h1>
             <Navbar />
           </header>
           <main>
