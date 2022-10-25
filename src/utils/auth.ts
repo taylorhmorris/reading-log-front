@@ -3,7 +3,7 @@ import decode from 'jwt-decode';
 class AuthService {
   loggedIn(token: string) {
     return !!token && !this.isTokenExpired(token);
-  };
+  }
   isTokenExpired(token: string) {
     try {
       const decoded: any = decode(token);
@@ -15,13 +15,13 @@ class AuthService {
     } catch (err) {
       return false;
     }
-  };
+  }
   login(token: string) {
     localStorage.setItem('id_token', token);
-  };
+  }
   logout() {
     localStorage.removeItem('id_token');
-  };
-};
+  }
+}
 
 export default new AuthService();

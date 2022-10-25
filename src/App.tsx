@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { UserContextProvider } from './context/UserContext';
 import { Navbar } from './components/Navbar';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
@@ -12,7 +13,7 @@ import './styles/global.css';
 
 function App() {
   return (
-    <>
+    <UserContextProvider>
       <Router>
         <div>
           <header>
@@ -34,7 +35,7 @@ function App() {
           <footer>Footer</footer>
         </div>
       </Router>
-    </>
+    </UserContextProvider>
   );
 }
 
