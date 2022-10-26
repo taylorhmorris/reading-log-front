@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
-import { useUserContext, useUpdateUserContext } from '../context/UserContext';
+import { useUpdateUserContext } from '../context/UserContext';
 import styles from '../styles/navbar.module.css';
 
 export function Navbar() {
-  const { loggedIn } = useUserContext();
   const { toggleLoggedIn } = useUpdateUserContext();
 
   useEffect(() => {
@@ -31,7 +30,7 @@ export function Navbar() {
       <a href="/authors" id="authors" className={styles.link}>
         Authors
       </a>
-      {loggedIn && <button onClick={() => toggleLoggedIn()}>Log Out</button>}
+      <button onClick={() => toggleLoggedIn()}>Log Out</button>
     </nav>
   );
 }
