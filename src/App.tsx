@@ -14,13 +14,13 @@ import './styles/global.css';
 function App() {
   return (
     <UserContextProvider>
-      <Router>
-        <div>
-          <header>
-            <h1>Reading Log</h1>
-            <Navbar />
-          </header>
-          <main>
+      <div>
+        <header>
+          <h1>Reading Log</h1>
+          <Navbar />
+        </header>
+        <main>
+          <Router>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
@@ -31,10 +31,10 @@ function App() {
               <Route path="/past-readings" element={<PastReadings />} />
               <Route path="/*" element={<NoMatch />} />
             </Routes>
-          </main>
-          <footer>Footer</footer>
-        </div>
-      </Router>
+          </Router>
+        </main>
+        <footer>Footer</footer>
+      </div>
     </UserContextProvider>
   );
 }

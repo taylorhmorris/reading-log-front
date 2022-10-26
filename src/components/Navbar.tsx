@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { useUserContext } from '../context/UserContext';
+import { useUserContext, useUpdateUserContext } from '../context/UserContext';
 import styles from '../styles/navbar.module.css';
 
 export function Navbar() {
-
-  const { loggedIn, setLoggedIn } = useUserContext();
+  const { loggedIn } = useUserContext();
+  const { toggleLoggedIn } = useUpdateUserContext();
 
   useEffect(() => {
     let page = window.location.pathname.split('/')[1];
@@ -14,9 +14,6 @@ export function Navbar() {
     if (el) el.className += current;
   }, []);
 
-  if (!loggedIn) {
-    return <></>;
-  }
   return (
     <nav className={styles.navbar}>
       <a href="/" id="home" className={styles.link}>
@@ -34,7 +31,7 @@ export function Navbar() {
       <a href="/authors" id="authors" className={styles.link}>
         Authors
       </a>
-      <button onClick={() => setLoggedIn(false)}>Log Out</button>
+      {loggedIn && <button onClick={() => toggleLoggedIn()}>Log Out</button>}
     </nav>
   );
 }
