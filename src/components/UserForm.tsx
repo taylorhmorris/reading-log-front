@@ -52,7 +52,7 @@ export function UserForm({ signup }: UserFormProps) {
         return;
       }
 
-      AuthService.login(res.access_token);
+      AuthService.login(res);
       window.location.assign('/');
     } catch (err) {
       console.error(err);
