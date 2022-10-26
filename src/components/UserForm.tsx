@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-// import { useUserContext } from '../context/UserContext';
+import { useUpdateUserContext } from '../context/UserContext';
 import FetchHandler from '../utils/fetchHandler';
 import AuthService from '../utils/auth';
 import styles from '../styles/userForm.module.css';
@@ -14,6 +14,7 @@ export type FormData = {
 };
 
 export function UserForm({ signup }: UserFormProps) {
+  const { toggleLoggedIn } = useUpdateUserContext();
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -53,7 +54,8 @@ export function UserForm({ signup }: UserFormProps) {
         return;
       }
 
-      AuthService.login(res.access_token);
+      AuthService.login(res);
+      toggleLoggedIn();
       window.location.assign('/');
     } catch (err) {
       console.error(err);
