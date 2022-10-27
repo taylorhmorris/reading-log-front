@@ -1,0 +1,12 @@
+h1 {
+    width: 100%;
+    text-align: center;
+}
+
+section {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2;
+}

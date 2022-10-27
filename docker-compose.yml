@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  frontend:
+    ports:
+      - ${PORT:-5173}:${PORT:-5173}
+    volumes:
+      - ./:/app
+    build:      
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+
+volumes:
+  reading-log-db:
