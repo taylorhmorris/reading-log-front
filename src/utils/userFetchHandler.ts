@@ -2,7 +2,7 @@ import { FormData } from '../components/UserForm';
 
 const api_url: string | undefined | null = import.meta.env.VITE_API_URL;
 
-class FetchHandler {
+class UserFetchHandler {
   async signup(formData: FormData) {
     const url = api_url + '/users';
     const response = await fetch(url, {
@@ -33,4 +33,4 @@ class FetchHandler {
   }
 }
 
-export default new FetchHandler();
+export default new UserFetchHandler();

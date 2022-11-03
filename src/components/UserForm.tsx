@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import FetchHandler from '../utils/fetchHandler';
+import UserFetchHandler from '../utils/userFetchHandler';
 import AuthService from '../utils/auth';
 import styles from '../styles/userForm.module.css';
 
@@ -41,8 +41,8 @@ export function UserForm({ signup }: UserFormProps) {
     try {
       let res;
       signup
-        ? (res = await FetchHandler.signup(formData))
-        : (res = await FetchHandler.login(formData));
+        ? (res = await UserFetchHandler.signup(formData))
+        : (res = await UserFetchHandler.login(formData));
 
       if (res.ok === false || res.error) {
         console.error(res);
