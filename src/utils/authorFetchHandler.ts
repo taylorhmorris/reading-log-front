@@ -4,6 +4,12 @@ const api_url: string | undefined | null = import.meta.env.VITE_API_URL;
 const authors_url = api_url + '/authors';
 const token = localStorage.getItem('id_token');
 
+type NewAuthor = {
+  owner_id: number;
+  first_names: string;
+  last_name: string;
+};
+
 class AuthorFetchHandler {
   async get_authors() {
     const response = await fetch(authors_url, {
@@ -24,6 +30,17 @@ class AuthorFetchHandler {
         Authorization: `Bearer ${token}`,
       },
     }).then((res) => res.json());
+    return response;
+  }
+  async create_author(authorData: NewAuthor) {
+    const response = await fetch(authors_url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(authorData),
+    });
     return response;
   }
 }
