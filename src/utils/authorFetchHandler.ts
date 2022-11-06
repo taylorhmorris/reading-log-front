@@ -43,6 +43,16 @@ class AuthorFetchHandler {
     });
     return response;
   }
+  async delete_author(id: number) {
+    const url = authors_url + `/${id}`;
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  }
 }
 
 export default new AuthorFetchHandler();
