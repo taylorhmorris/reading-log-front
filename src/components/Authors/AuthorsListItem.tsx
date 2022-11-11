@@ -1,6 +1,7 @@
 import React from 'react';
 import { IAuthor } from '../../interfaces/IAuthor';
 import styles from '../../styles/authors.module.css';
+import { AuthorDetail } from './AuthorDetail';
 
 export interface AuthorsListItemPropsType {
   author: IAuthor;
@@ -36,7 +37,7 @@ export class AuthorsListItem extends React.Component<
       details = (
         <>
           <hr />
-          Books, etc.
+          <AuthorDetail author={this.props.author} />
         </>
       );
     }
