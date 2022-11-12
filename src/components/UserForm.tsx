@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import UserFetchHandler from '../utils/userFetchHandler';
 import AuthService from '../utils/auth';
 import styles from '../styles/userForm.module.css';
@@ -16,6 +16,7 @@ export function UserForm({ signup }: UserFormProps) {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
 
   async function formSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,6 +40,7 @@ export function UserForm({ signup }: UserFormProps) {
 
     const formData: FormData = { username, password, email };
     try {
+      setLoading(true);
       let res;
       signup
         ? (res = await UserFetchHandler.signup(formData))
@@ -52,6 +54,7 @@ export function UserForm({ signup }: UserFormProps) {
         return;
       }
 
+      setLoading(false);
       AuthService.login(res);
       window.location.assign('/');
     } catch (err) {
@@ -100,6 +103,7 @@ export function UserForm({ signup }: UserFormProps) {
           </a>
         )}
       </div>
+      {loading && <div>Please wait...</div>}
     </form>
   );
 }
