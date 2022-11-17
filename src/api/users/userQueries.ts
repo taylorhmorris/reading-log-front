@@ -1,12 +1,7 @@
 import axios from 'axios';
+import { getStoredData } from '../../utils/dataStore';
 
 const api_url: string = import.meta.env.VITE_API_URL;
-
-async function getStoredData() {
-  const token = localStorage.getItem('id_token');
-  const user_id = await localStorage.getItem('user_id');
-  return { token, user_id };
-}
 
 async function getUser() {
   const { token, user_id } = await getStoredData();
