@@ -3,16 +3,14 @@ import { FormData } from '../../components/UserForm';
 
 const api_url: string = import.meta.env.VITE_API_URL;
 
-const axios_instance = axios.create({
-  baseURL: api_url,
-  timeout: 30000,
-});
-
 async function loginUser(formData: FormData) {
-  return axios_instance({
+  const { username, password } = formData;
+  return axios(`${api_url}/auth/login`, {
     method: 'post',
-    url: '/auth/login',
-    data: formData,
+    data: {
+      username,
+      password,
+    },
   });
 }
 

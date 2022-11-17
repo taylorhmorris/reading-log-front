@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 import { loginUser } from '../api/auth/userAuth';
 import { createUser } from '../api/users/userMutations';
@@ -18,9 +17,6 @@ export type FormData = {
 };
 
 export function UserForm({ signup }: UserFormProps) {
-
-  const queryClient = useQueryClient();
-
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -54,16 +50,14 @@ export function UserForm({ signup }: UserFormProps) {
     try {
       setLoading(true);
 
-      // if (signup) {
-      //   const { status } = useMutation(['users'], () => {
-      //     createUser(formData)
-      //   });
-
-      //   if (status != 201) {
-      //     alert(`Error: ${status}`);
-      //     return;
-      //   }
-      // }
+      if (signup) {
+        const data = await createUser(formData);
+        console.log(data);
+        if (data.status != 201) {
+          alert(`Error: ${data.status}`);
+          return;
+        }
+      }
 
       const { data, status } = await loginUser(formData);
       if (status != 201) {
@@ -71,13 +65,14 @@ export function UserForm({ signup }: UserFormProps) {
         return;
       }
 
+      // store jwt and user_id
       const token: string = data.access_token;
       const user_id: number = data.id;
-
-      // store jwt
       AuthService.login(token, user_id);
+
       // update UserContext
       updateLoggedIn(true);
+
       // finish and redirect to Home page
       setLoading(false);
       navigate('/');

@@ -11,7 +11,7 @@ async function getStoredData() {
 async function getUser() {
   const { token, user_id } = await getStoredData();
   const url = `${api_url}/users/${user_id}`;
-  
+
   return axios.get(url, {
     headers: {
       'Content-Type': 'application/json',
