@@ -1,11 +1,5 @@
 import decode from 'jwt-decode';
 
-export type AuthResponse = {
-  access_token: string;
-  id: number;
-  isAdmin: boolean;
-};
-
 class AuthService {
   loggedIn(token: string) {
     return !!token && !this.isTokenExpired(token);
@@ -22,13 +16,11 @@ class AuthService {
       return false;
     }
   }
-  login(res: AuthResponse) {
-    localStorage.setItem('id_token', res.access_token);
-    localStorage.setItem('user_id', res.id.toString());
+  login(token: string) {
+    localStorage.setItem('id_token', token);
   }
   logout() {
     localStorage.removeItem('id_token');
-    localStorage.removeItem('user_id');
   }
 }
 

@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, signupUser } from '../api/auth/userAuth';
-import AuthService, { AuthResponse } from '../utils/auth';
+import AuthService from '../utils/auth';
 import { useUpdateUserContext } from '../context/UserContext';
 import styles from '../styles/userForm.module.css';
 
@@ -20,7 +20,7 @@ export function UserForm({ signup }: UserFormProps) {
   const emailRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
 
-  const { toggleLoggedIn } = useUpdateUserContext();
+  const { toggleLoggedIn, setUserId } = useUpdateUserContext();
   const navigate = useNavigate();
 
   async function formSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -47,19 +47,25 @@ export function UserForm({ signup }: UserFormProps) {
 
     try {
       setLoading(true);
-
-      const { data, status } = signup
-        ? await signupUser(formData)
-        : await loginUser(formData);
-
       if (signup) {
-        const { data, status } = await loginUser(formData);
-        status == 201 ? AuthService.login(data as AuthResponse) : alert(status);
-      } else {
-        status == 201 ? AuthService.login(data as AuthResponse) : alert(status);
+        const response = await signupUser(formData);
+        if (response.status != 201) {
+          alert(`Error: ${response.status}`);
+          return;
+        }
+      }
+      const { data, status } = await loginUser(formData);
+      if (status != 201) {
+        alert(`Error: ${status}`);
+        return;
       }
 
+      // store jwt
+      AuthService.login(data.access_token);
+      // update UserContext
+      setUserId(data.id);
       toggleLoggedIn();
+      // finish and redirect to Home page
       setLoading(false);
       navigate('/');
     } catch (err) {
