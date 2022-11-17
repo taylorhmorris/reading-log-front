@@ -1,17 +1,17 @@
 import axios from 'axios';
-import { FormData } from '../components/UserForm';
+import { FormData } from '../../components/UserForm';
 
 const api_url: string = import.meta.env.VITE_API_URL;
 
 const axios_instance = axios.create({
   baseURL: api_url,
-  timeout: 5000,
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-async function login(formData: FormData) {
+async function loginUser(formData: FormData) {
   return axios_instance({
     method: 'post',
     url: '/auth/login',
@@ -19,7 +19,7 @@ async function login(formData: FormData) {
   });
 }
 
-async function signup(formData: FormData) {
+async function signupUser(formData: FormData) {
   return axios_instance({
     method: 'post',
     url: '/users',
@@ -27,4 +27,4 @@ async function signup(formData: FormData) {
   });
 }
 
-export { signup, login };
+export { loginUser, signupUser };

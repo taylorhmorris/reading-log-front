@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useUserContext } from '../context/UserContext';
 import { useQuery } from '@tanstack/react-query';
-import { queryUser } from '../api/users';
+import { queryUser } from '../api/users/userQueries';
 
 export function Home() {
   const { loggedIn } = useUserContext();
@@ -10,9 +10,9 @@ export function Home() {
   const [username, setUsername] = useState('');
 
   if (user_id != null) {
-    const { isLoading, error, data } = useQuery(['users'], () =>
-      queryUser(user_id),
-    );
+    const { isLoading, error, data } = useQuery(['users'], () => {
+      queryUser(user_id);
+    });
 
     if (isLoading) console.log(isLoading);
     if (error) console.log(error);
