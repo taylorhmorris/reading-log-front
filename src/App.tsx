@@ -22,7 +22,7 @@ function App() {
       <main>
         <Router>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home loggedIn={loggedIn} />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             {loggedIn && (

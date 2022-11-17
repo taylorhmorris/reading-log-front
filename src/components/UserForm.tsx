@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, signupUser } from '../api/auth/userAuth';
 import AuthService, { AuthResponse } from '../utils/auth';
+import { useUpdateUserContext } from '../context/UserContext';
 import styles from '../styles/userForm.module.css';
 
 export type UserFormProps = {
@@ -19,6 +20,7 @@ export function UserForm({ signup }: UserFormProps) {
   const emailRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
 
+  const { toggleLoggedIn } = useUpdateUserContext();
   const navigate = useNavigate();
 
   async function formSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -57,6 +59,7 @@ export function UserForm({ signup }: UserFormProps) {
         status == 201 ? AuthService.login(data as AuthResponse) : alert(status);
       }
 
+      toggleLoggedIn();
       setLoading(false);
       navigate('/');
     } catch (err) {

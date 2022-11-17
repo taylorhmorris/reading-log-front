@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useUpdateUserContext } from '../context/UserContext';
+import AuthService from '../utils/auth';
 import styles from '../styles/navbar.module.css';
 
 export function Navbar() {
@@ -30,7 +31,14 @@ export function Navbar() {
       <a href="/authors" id="authors" className={styles.link}>
         Authors
       </a>
-      <button onClick={() => toggleLoggedIn()}>Log Out</button>
+      <button
+        onClick={() => {
+          AuthService.logout();
+          toggleLoggedIn();
+        }}
+      >
+        Log Out
+      </button>
     </nav>
   );
 }

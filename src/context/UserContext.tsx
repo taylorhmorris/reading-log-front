@@ -30,7 +30,6 @@ export function UserContextProvider({ children }: UserContextProps) {
   const [loggedIn, setLoggedIn] = useState(currentState);
   function toggleLoggedIn() {
     setLoggedIn((prev) => !prev);
-    AuthService.logout();
   }
   return (
     <UserContext.Provider value={{ loggedIn }}>
