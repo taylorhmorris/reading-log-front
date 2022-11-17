@@ -4,7 +4,7 @@ import AuthService from '../utils/auth';
 import styles from '../styles/navbar.module.css';
 
 export function Navbar() {
-  const { toggleLoggedIn } = useUpdateUserContext();
+  const { updateLoggedIn } = useUpdateUserContext();
 
   useEffect(() => {
     let page = window.location.pathname.split('/')[1];
@@ -34,7 +34,7 @@ export function Navbar() {
       <button
         onClick={() => {
           AuthService.logout();
-          toggleLoggedIn();
+          updateLoggedIn(false);
         }}
       >
         Log Out

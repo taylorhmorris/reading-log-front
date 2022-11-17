@@ -1,25 +1,23 @@
 import axios from 'axios';
 
 const api_url: string = import.meta.env.VITE_API_URL;
-const token = localStorage.getItem('id_token');
 
-const axios_instance = axios.create({
-  baseURL: api_url,
-  timeout: 15000,
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  },
-});
+async function getStoredData() {
+  const token = localStorage.getItem('id_token');
+  const user_id = await localStorage.getItem('user_id');
+  return { token, user_id };
+}
 
-function getUser(user_id: string | null) {
-  if (user_id !== null) {
-    const response = axios_instance({
-      method: 'get',
-      url: `users/${user_id}`,
-    });
-    return response;
-  }
+async function getUser() {
+  const { token, user_id } = await getStoredData();
+  const url = `${api_url}/users/${user_id}`;
+  
+  return axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 export { getUser };

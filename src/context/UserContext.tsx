@@ -6,11 +6,9 @@ interface UserContextProps {
 }
 type UserContextType = {
   loggedIn: boolean;
-  userId: string | null;
 };
 type UpdateUserContextType = {
-  toggleLoggedIn: () => void;
-  setUserId: (id: string) => void;
+  updateLoggedIn: (val: boolean) => void;
 };
 
 const UserContext = createContext({} as UserContextType);
@@ -27,22 +25,18 @@ export function useUpdateUserContext() {
 export function UserContextProvider({ children }: UserContextProps) {
   let currentState = false;
   const token = localStorage.getItem('id_token');
+
   if (token) currentState = AuthService.loggedIn(token);
 
-  const [id, setId] = useState<string | null>(null);
   const [loggedIn, setLoggedIn] = useState(currentState);
 
-  function toggleLoggedIn() {
-    setLoggedIn((prev) => !prev);
+  function updateLoggedIn(val: boolean) {
+    setLoggedIn(val);
   }
-  function setUserId(id: string) {
-    setId(id);
-  }
-
 
   return (
-    <UserContext.Provider value={{ loggedIn, userId: id }}>
-      <UpdateUserContext.Provider value={{ toggleLoggedIn, setUserId }}>
+    <UserContext.Provider value={{ loggedIn }}>
+      <UpdateUserContext.Provider value={{ updateLoggedIn }}>
         {children}
       </UpdateUserContext.Provider>
     </UserContext.Provider>

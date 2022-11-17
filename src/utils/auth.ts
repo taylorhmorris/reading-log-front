@@ -16,11 +16,13 @@ class AuthService {
       return false;
     }
   }
-  login(token: string) {
+  login(token: string, user_id: number) {
     localStorage.setItem('id_token', token);
+    localStorage.setItem('user_id', user_id.toString());
   }
   logout() {
     localStorage.removeItem('id_token');
+    localStorage.removeItem('user_id');
   }
 }
 

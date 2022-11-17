@@ -1,6 +1,9 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser, signupUser } from '../api/auth/userAuth';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
+
+import { loginUser } from '../api/auth/userAuth';
+import { createUser } from '../api/users/userMutations';
 import AuthService from '../utils/auth';
 import { useUpdateUserContext } from '../context/UserContext';
 import styles from '../styles/userForm.module.css';
@@ -15,12 +18,15 @@ export type FormData = {
 };
 
 export function UserForm({ signup }: UserFormProps) {
+
+  const queryClient = useQueryClient();
+
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
 
-  const { toggleLoggedIn, setUserId } = useUpdateUserContext();
+  const { updateLoggedIn } = useUpdateUserContext();
   const navigate = useNavigate();
 
   async function formSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -47,24 +53,31 @@ export function UserForm({ signup }: UserFormProps) {
 
     try {
       setLoading(true);
-      if (signup) {
-        const response = await signupUser(formData);
-        if (response.status != 201) {
-          alert(`Error: ${response.status}`);
-          return;
-        }
-      }
+
+      // if (signup) {
+      //   const { status } = useMutation(['users'], () => {
+      //     createUser(formData)
+      //   });
+
+      //   if (status != 201) {
+      //     alert(`Error: ${status}`);
+      //     return;
+      //   }
+      // }
+
       const { data, status } = await loginUser(formData);
       if (status != 201) {
         alert(`Error: ${status}`);
         return;
       }
 
+      const token: string = data.access_token;
+      const user_id: number = data.id;
+
       // store jwt
-      AuthService.login(data.access_token);
+      AuthService.login(token, user_id);
       // update UserContext
-      setUserId(data.id);
-      toggleLoggedIn();
+      updateLoggedIn(true);
       // finish and redirect to Home page
       setLoading(false);
       navigate('/');
