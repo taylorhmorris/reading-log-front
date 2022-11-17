@@ -1,6 +1,10 @@
 import { useRef, useState } from 'react';
-import UserFetchHandler from '../utils/userFetchHandler';
+import { useNavigate } from 'react-router-dom';
+
+import { loginUser } from '../api/auth/userAuth';
+import { createUser } from '../api/users/userMutations';
 import AuthService from '../utils/auth';
+import { useUpdateUserContext } from '../context/UserContext';
 import styles from '../styles/userForm.module.css';
 
 export type UserFormProps = {
@@ -17,6 +21,9 @@ export function UserForm({ signup }: UserFormProps) {
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
+
+  const { updateLoggedIn } = useUpdateUserContext();
+  const navigate = useNavigate();
 
   async function formSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,26 +46,39 @@ export function UserForm({ signup }: UserFormProps) {
     }
 
     const formData: FormData = { username, password, email };
+
     try {
       setLoading(true);
-      let res;
-      signup
-        ? (res = await UserFetchHandler.signup(formData))
-        : (res = await UserFetchHandler.login(formData));
 
-      if (res.ok === false || res.error) {
-        console.error(res);
-        res.error
-          ? alert(`Error code ${res.statusCode}: ${res.message}`)
-          : alert(`Error code ${res.status}: ${res.statusText}`);
+      if (signup) {
+        const data = await createUser(formData);
+        console.log(data);
+        if (data.status != 201) {
+          alert(`Error: ${data.status}`);
+          return;
+        }
+      }
+
+      const { data, status } = await loginUser(formData);
+      if (status != 201) {
+        alert(`Error: ${status}`);
         return;
       }
 
+      // store jwt and user_id
+      const token: string = data.access_token;
+      const user_id: number = data.id;
+      AuthService.login(token, user_id);
+
+      // update UserContext
+      updateLoggedIn(true);
+
+      // finish and redirect to Home page
       setLoading(false);
-      AuthService.login(res);
-      window.location.assign('/');
+      navigate('/');
     } catch (err) {
       console.error(err);
+      setLoading(false);
       alert("Somethin' ain't right...");
       return;
     }
