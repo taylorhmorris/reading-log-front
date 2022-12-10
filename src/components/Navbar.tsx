@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useUpdateUserContext } from '../context/UserContext';
 import styles from '../styles/navbar.module.css';
 
@@ -15,21 +16,25 @@ export function Navbar() {
 
   return (
     <nav className={styles.navbar}>
-      <a href="/" id="home" className={styles.link}>
+      <Link to="/" id="home" className={styles.link}>
         Home
-      </a>
-      <a href="/current-readings" id="current-readings" className={styles.link}>
+      </Link>
+      <Link
+        to="/current-readings"
+        id="current-readings"
+        className={styles.link}
+      >
         Current Readings
-      </a>
-      <a href="/past-readings" id="past-readings" className={styles.link}>
+      </Link>
+      <Link to="/past-readings" id="past-readings" className={styles.link}>
         Past Readings
-      </a>
-      <a href="/books" id="books" className={styles.link}>
+      </Link>
+      <Link to="/books" id="books" className={styles.link}>
         Books
-      </a>
-      <a href="/authors" id="authors" className={styles.link}>
+      </Link>
+      <Link to="/authors" id="authors" className={styles.link}>
         Authors
-      </a>
+      </Link>
       <button onClick={() => toggleLoggedIn()}>Log Out</button>
     </nav>
   );
