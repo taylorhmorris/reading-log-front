@@ -16,24 +16,30 @@ export function Navbar() {
 
   return (
     <nav className={styles.navbar}>
-      <Link to="/" id="home" className={styles.link}>
-        Home
+      <Link to="/">
+        <span id="home" className={styles.link}>
+          Home
+        </span>
       </Link>
-      <Link
-        to="/current-readings"
-        id="current-readings"
-        className={styles.link}
-      >
-        Current Readings
+      <Link to="/current-readings">
+        <span id="current-readings" className={styles.link}>
+          Current Readings
+        </span>
       </Link>
-      <Link to="/past-readings" id="past-readings" className={styles.link}>
-        Past Readings
+      <Link to="/past-readings">
+        <span id="past-readings" className={styles.link}>
+          Past Readings
+        </span>
       </Link>
-      <Link to="/books" id="books" className={styles.link}>
-        Books
+      <Link to="/books">
+        <span id="books" className={styles.link}>
+          Books
+        </span>
       </Link>
-      <Link to="/authors" id="authors" className={styles.link}>
-        Authors
+      <Link to="/authors">
+        <span id="authors" className={styles.link}>
+          Authors
+        </span>
       </Link>
       <button onClick={() => toggleLoggedIn()}>Log Out</button>
     </nav>
